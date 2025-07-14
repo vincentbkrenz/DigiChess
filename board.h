@@ -45,6 +45,8 @@ class Board {
 
         void move_full_square();
 
+        void moveToSquare(int file, int rank, MOVE_TYPE moveType = STRAIGHT);
+
         private:
         char squares[8][8] = {
             {'r','n','k','b','q','k','n','r'},
@@ -57,6 +59,7 @@ class Board {
             {'R','N','K','B','Q','K','N','R'}
         };
         int squareSize = 50; //Size of each square in steps
+        int borderSize = 50; //Size of the border around the board in steps
         Gantry gantry; // Gantry for moving pieces
         Electromagnet electromagnet; // Electromagnet for picking up pieces
         ChessEngine engine;
