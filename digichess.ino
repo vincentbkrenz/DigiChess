@@ -189,31 +189,48 @@
 Board board;
 
 void setup() {
-    board.gantry.setCurrentPosition(0, 0); 
+    board.get_gantry()->setCurrentPosition(0, 0); 
     delay(100);
     
 
 }
 
 void loop() 
-[
-  board.move_half_square(TOP_LEFT);
+{
+ 
+  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_LEFT); //wong: moves +y
+  // delay(500);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+  // delay(500);
+  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_RIGHT); //actually top left
+  // delay(500);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+  // delay(500);
+  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_LEFT); //doesnt work at all
+  // delay(500);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+  // delay(500);
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_RIGHT); //doesnt work-> goes +x (left)
   delay(500);
-  board.move_half_square(TOP_RIGHT);
+  board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
   delay(500);
-  board.move_half_square(BOTTOM_LEFT);
-  delay(500);
-  board.move_half_square(BOTTOM_RIGHT);
-  delay(500);
-  board.move_half_square(POSITIVE_X);
-  delay(500); 
-  board.move_half_square(NEGATIVE_X);
-  delay(500);
-  board.move_half_square(POSITIVE_Y);
-  delay(500);
-  board.move_half_square(NEGATIVE_Y);
-  delay(500);
-]
+  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_X);
+  // delay(500);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+  // delay(500); 
+  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_X);
+  // delay(500);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+  // delay(500);
+  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_Y);
+  // delay(500);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+  // delay(500);
+  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_Y);
+  // delay(500);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+  // delay(500);
+}
 
 
 

@@ -6,15 +6,18 @@
 #include <Arduino.h>
 #endif
 
-// Enum for movement modes
-enum Movement {
-    MOVE_STRAIGHT = 0, // straight line (default, Bresenham-style)
-    MOVE_RECTANGULAR = 1, // L-shaped (first X, then Y)
-    MOVE_DIAGONAL = 2 // diagonal (only if |deltaX| == |deltaY|)
-};
+
 
 class Gantry {
     public:
+
+            // Enum for movement modes
+        enum Movement {
+            MOVE_STRAIGHT = 0, // straight line (default, Bresenham-style)
+            MOVE_RECTANGULAR = 1, // L-shaped (first X, then Y)
+            MOVE_DIAGONAL = 2 // diagonal (only if |deltaX| == |deltaY|)
+        };
+        
         Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSwitchXPin, int limitSwitchYPin);
 
         // Updated moveTo with movement mode

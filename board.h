@@ -32,8 +32,8 @@ class Board {
         Board();
 
         //updates_board 
-        void update_board(String move);
-        void update_board(String move, MOVE_TYPE moveType);
+        void updateBoard(String move);
+        void updateBoard(String move, MOVE_TYPE moveType);
 
         // Move a piece from (fromX, fromY) to (toX, toY)
         void movePiece(String move, MOVE_TYPE moveType);
@@ -47,22 +47,24 @@ class Board {
 
         void moveToSquare(int file, int rank, MOVE_TYPE moveType = STRAIGHT);
 
+        Gantry* get_gantry() {return &gantry;};
+
         private:
-        char squares[8][8] = {
-            {'r','n','k','b','q','k','n','r'},
-            {'p','p','p','p','p','p','p','p'},
-            {'.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','.'},
-            {'.','.','.','.','.','.','.','.'},
-            {'P','P','P','P','P','P','P','P'},
-            {'R','N','K','B','Q','K','N','R'}
-        };
-        int squareSize = 50; //Size of each square in steps
-        int borderSize = 50; //Size of the border around the board in steps
-        Gantry gantry; // Gantry for moving pieces
-        Electromagnet electromagnet; // Electromagnet for picking up pieces
-        ChessEngine engine;
+            char squares[8][8] = {
+                {'r','n','k','b','q','k','n','r'},
+                {'p','p','p','p','p','p','p','p'},
+                {'.','.','.','.','.','.','.','.'},
+                {'.','.','.','.','.','.','.','.'},
+                {'.','.','.','.','.','.','.','.'},
+                {'.','.','.','.','.','.','.','.'},
+                {'P','P','P','P','P','P','P','P'},
+                {'R','N','K','B','Q','K','N','R'}
+            };
+            int squareSize = 500; //Size of each square in steps
+            int borderSize = 50; //Size of the border around the board in steps
+            Gantry gantry; // Gantry for moving pieces
+            Electromagnet electromagnet; // Electromagnet for picking up pieces
+            ChessEngine engine;
 
 };
 
