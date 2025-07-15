@@ -51,7 +51,7 @@ class Board {
         Gantry* get_gantry() {return &gantry;};
 
         private:
-            char squares[8][8] = init_squares; // 2D array representing the chess board
+            char squares[8][8]; // 2D array representing the chess board
             int _squareSize = squareSize; //Size of each square in steps
             int _borderSize = borderSize; //Size of the border around the board in steps
             Gantry gantry; // Gantry for moving pieces

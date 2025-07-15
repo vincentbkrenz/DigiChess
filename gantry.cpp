@@ -13,15 +13,15 @@ Gantry::Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSw
 }
 
 // Moves the gantry to the specified X/Y position using CoreXY kinematics and movement mode
-void Gantry::moveTo(long xSteps, long ySteps, Movement mode) {
+void Gantry::moveTo(int xSteps, int ySteps, Movement mode) {
     // Clamp target position to within limits
     if (xSteps < _minX) xSteps = 0;
     if (ySteps < _minY) ySteps = 0;
     if (xSteps > _maxX) xSteps = _maxX;
     if (ySteps > _maxY) ySteps = _maxY;
 
-    long deltaX = xSteps - _currentX;
-    long deltaY = ySteps - _currentY;
+    int deltaX = xSteps - _currentX;
+    int deltaY = ySteps - _currentY;
     if (mode == MOVE_RECTANGULAR) {
         moveCoreXY(deltaX, 0);
         moveCoreXY(0, deltaY);
@@ -44,12 +44,12 @@ void Gantry::moveTo(long xSteps, long ySteps, Movement mode) {
 }
 
 // Moves the gantry by the specified deltaX and deltaY using direct stepper logic
-void Gantry::moveCoreXY(long deltaX, long deltaY) {
+void Gantry::moveCoreXY(int deltaX, int deltaY) {
     // CoreXY: for pure X, both motors same direction; for pure Y, both motors opposite directions
-    long aSteps = deltaX + deltaY;
-    long bSteps = deltaX - deltaY;
-    long aAbs = abs(aSteps);
-    long bAbs = abs(bSteps);
+    int aSteps = deltaX + deltaY;
+    int bSteps = deltaX - deltaY;
+    int aAbs = abs(aSteps);
+    int bAbs = abs(bSteps);
     bool aDir = (aSteps >= 0) ? LOW : HIGH;
     bool bDir = (bSteps >= 0) ? LOW : HIGH;
 
@@ -70,8 +70,8 @@ void Gantry::moveCoreXY(long deltaX, long deltaY) {
 
     digitalWrite(_dirPinA, aDir);
     digitalWrite(_dirPinB, bDir);
-    long maxSteps = (aAbs > bAbs) ? aAbs : bAbs;
-    for (long i = 0; i < maxSteps; ++i) {
+    int maxSteps = (aAbs > bAbs) ? aAbs : bAbs;
+    for (int i = 0; i < maxSteps; ++i) {
         if (i < aAbs) digitalWrite(_stepPinA, HIGH);
         if (i < bAbs) digitalWrite(_stepPinB, HIGH);
         delay(1);
@@ -106,19 +106,19 @@ void Gantry::home() {
 
 }
 
-void Gantry::setCurrentPosition(long xSteps, long ySteps) {
+void Gantry::setCurrentPosition(int xSteps, int ySteps) {
     _currentX = xSteps;
     _currentY = ySteps;
 }
 
-long Gantry::getX() const { return _currentX; }
-long Gantry::getY() const { return _currentY; }
-void Gantry::setX(long xSteps) { _currentX = xSteps; }
-void Gantry::setY(long ySteps) { _currentY = ySteps; }
-void Gantry::setMaxX(long maxX) { _maxX = maxX; }
-void Gantry::setMaxY(long maxY) { _maxY = maxY; }
-long Gantry::getMaxX() const { return _maxX; }
-long Gantry::getMaxY() const { return _maxY; }
+int Gantry::getX() const { return _currentX; }
+int Gantry::getY() const { return _currentY; }
+void Gantry::setX(int xSteps) { _currentX = xSteps; }
+void Gantry::setY(int ySteps) { _currentY = ySteps; }
+void Gantry::setMaxX(int maxX) { _maxX = maxX; }
+void Gantry::setMaxY(int maxY) { _maxY = maxY; }
+int Gantry::getMaxX() const { return _maxX; }
+int Gantry::getMaxY() const { return _maxY; }
 int Gantry::getLimitSwitchXPin() const { return _limitSwitchXPin; }
 int Gantry::getLimitSwitchYPin() const { return _limitSwitchYPin; }
 void Gantry::setLimitSwitchXPin(int pin) { _limitSwitchXPin = pin; pinMode(_limitSwitchXPin, INPUT_PULLUP); }
@@ -143,7 +143,7 @@ void Gantry::singleStep(int motor, bool direction) {
     if (motor == 0) stepMotorA(direction);
     else if (motor == 1) stepMotorB(direction);
 }
-void Gantry::calculateCoreXY(long x, long y, long& aSteps, long& bSteps) {
+void Gantry::calculateCoreXY(int x, int y, int& aSteps, int& bSteps) {
     aSteps = x + y;
     bSteps = x - y;
 }
