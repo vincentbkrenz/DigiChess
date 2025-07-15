@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include "constants.h"
 #include "gantry.h"
 #include "electromagnet.h"
 #include "ChessEngine.h"
@@ -50,18 +51,9 @@ class Board {
         Gantry* get_gantry() {return &gantry;};
 
         private:
-            char squares[8][8] = {
-                {'r','n','k','b','q','k','n','r'},
-                {'p','p','p','p','p','p','p','p'},
-                {'.','.','.','.','.','.','.','.'},
-                {'.','.','.','.','.','.','.','.'},
-                {'.','.','.','.','.','.','.','.'},
-                {'.','.','.','.','.','.','.','.'},
-                {'P','P','P','P','P','P','P','P'},
-                {'R','N','K','B','Q','K','N','R'}
-            };
-            int squareSize = 500; //Size of each square in steps
-            int borderSize = 50; //Size of the border around the board in steps
+            char squares[8][8] = init_squares; // 2D array representing the chess board
+            int _squareSize = squareSize; //Size of each square in steps
+            int _borderSize = borderSize; //Size of the border around the board in steps
             Gantry gantry; // Gantry for moving pieces
             Electromagnet electromagnet; // Electromagnet for picking up pieces
             ChessEngine engine;

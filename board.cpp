@@ -1,8 +1,11 @@
 #include "board.h"
+#include "constants.h"
 #include <Arduino.h>
 
-Board::Board() : gantry(10, 11, 12, 13, 2, 3), electromagnet(4), engine() {
-    //gantry.home();
+Board::Board() : 
+  gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN), 
+   electromagnet(ELECTROMAGNET_PIN), engine() {
+    gantry.home();
     engine.setSeed(micros());
 }
 
@@ -59,8 +62,8 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
             }
             
             gantry.moveTo(
-                gantry.getX() + (toFile - fromFile) * squareSize,
-                gantry.getY() + (toRank - fromRank) * squareSize,
+                gantry.getX() + (toFile - fromFile) * _squareSize,
+                gantry.getY() + (toRank - fromRank) * _squareSize,
                 Gantry::Movement::MOVE_RECTANGULAR
             );
 
@@ -106,8 +109,8 @@ void Board::reset() {
 
 void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType) {
     // Calculate the target position in steps
-    int targetX = file * squareSize + borderSize + (squareSize / 2); 
-    int targetY = (7 - rank) * squareSize + borderSize + (squareSize / 2); 
+    int targetX = file * _squareSize + _borderSize + (_squareSize / 2); 
+    int targetY = (7 - rank) * _squareSize + _borderSize + (_squareSize / 2); 
 
     switch (moveType) {
         case STRAIGHT:
@@ -128,14 +131,14 @@ void Board::move_half_square(HALF_SQUARE_DIRECTION direction) {
     switch (direction) {
         case POSITIVE_X:
             gantry.moveTo(
-                gantry.getX() + (squareSize / 2),
+                gantry.getX() + (_squareSize / 2),
                 gantry.getY(),
                 Gantry::Movement::MOVE_STRAIGHT
             );
             break;
         case NEGATIVE_X:
             gantry.moveTo(
-                gantry.getX() - (squareSize / 2),
+                gantry.getX() - (_squareSize / 2),
                 gantry.getY(),
                 Gantry::Movement::MOVE_STRAIGHT
             );
@@ -143,42 +146,42 @@ void Board::move_half_square(HALF_SQUARE_DIRECTION direction) {
         case POSITIVE_Y:
             gantry.moveTo(
                 gantry.getX(),
-                gantry.getY() + (squareSize / 2),
+                gantry.getY() + (_squareSize / 2),
                 Gantry::Movement::MOVE_STRAIGHT
             );
             break;
         case NEGATIVE_Y:
             gantry.moveTo(
                 gantry.getX(),
-                gantry.getY() - (squareSize / 2),
+                gantry.getY() - (_squareSize / 2),
                 Gantry::Movement::MOVE_STRAIGHT
             );
             break;
         case TOP_LEFT:
             gantry.moveTo(
-                gantry.getX() + (squareSize / 2),
-                gantry.getY() + (squareSize / 2),
+                gantry.getX() + (_squareSize / 2),
+                gantry.getY() + (_squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
             break;
         case TOP_RIGHT:
             gantry.moveTo(
-                gantry.getX() - (squareSize / 2),
-                gantry.getY() + (squareSize / 2),
+                gantry.getX() - (_squareSize / 2),
+                gantry.getY() + (_squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
             break;
         case BOTTOM_LEFT:
             gantry.moveTo(
-                gantry.getX() + (squareSize / 2),
-                gantry.getY() - (squareSize / 2),
+                gantry.getX() + (_squareSize / 2),
+                gantry.getY() - (_squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
             break;
         case BOTTOM_RIGHT:
             gantry.moveTo(
-                gantry.getX() - (squareSize / 2),
-                gantry.getY() - (squareSize / 2),
+                gantry.getX() - (_squareSize / 2),
+                gantry.getY() - (_squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
             break;

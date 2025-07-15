@@ -1,6 +1,7 @@
 #ifndef ELECTROMAGNET_H
 #define ELECTROMAGNET_H
 
+#include "Constants.h"
 #include <Arduino.h> // Add this if using Arduino
 
 class Electromagnet {

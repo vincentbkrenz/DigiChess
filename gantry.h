@@ -1,11 +1,8 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
-
-#ifdef ARDUINO
 #include <Arduino.h>
-#endif
-
+#include "constants.h"
 
 
 class Gantry {
@@ -21,20 +18,20 @@ class Gantry {
         Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSwitchXPin, int limitSwitchYPin);
 
         // Updated moveTo with movement mode
-        void moveTo(long xSteps, long ySteps, Movement mode = MOVE_STRAIGHT);
+        void moveTo(int xSteps, int ySteps, Movement mode = MOVE_STRAIGHT);
         void home();
-        void setCurrentPosition(long xSteps, long ySteps);
-        long getX() const;
-        long getY() const;
+        void setCurrentPosition(int xSteps, int ySteps);
+        int getX() const;
+        int getY() const;
 
         // Getters and setters for current position
-        void setX(long xSteps);
-        void setY(long ySteps);
+        void setX(int xSteps);
+        void setY(int ySteps);
 
-        void setMaxX(long maxX);
-        void setMaxY(long maxY);
-        long getMaxX() const;
-        long getMaxY() const;
+        void setMaxX(int maxX);
+        void setMaxY(int maxY);
+        int getMaxX() const;
+        int getMaxY() const;
 
         // Getters and setters for limit switch pins
         int getLimitSwitchXPin() const;
@@ -46,15 +43,18 @@ class Gantry {
         int _stepPinA, _dirPinA;
         int _stepPinB, _dirPinB;
         int _limitSwitchXPin, _limitSwitchYPin;
-        long _currentX, _currentY;
-        long _maxX = 200;
-        long _maxY = 200; // Outer limits (in steps)
+        int _currentX, _currentY;
+        int _maxX = maxX;
+        int _maxY = maxY;
+        int _minX = minX;
+        int _minY = minY;
+
 
         void stepMotorA(bool direction);
         void stepMotorB(bool direction);
-        void moveCoreXY(long deltaX, long deltaY);
+        void moveCoreXY(int deltaX, int deltaY);
         void singleStep(int motor, bool direction);
-        void calculateCoreXY(long x, long y, long& aSteps, long& bSteps);
+        void calculateCoreXY(int x, int y, int& aSteps, int& bSteps);
 
 };
 

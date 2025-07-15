@@ -15,10 +15,10 @@ Gantry::Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSw
 // Moves the gantry to the specified X/Y position using CoreXY kinematics and movement mode
 void Gantry::moveTo(long xSteps, long ySteps, Movement mode) {
     // Clamp target position to within limits
-    // if (xSteps < 0) xSteps = 0;
-    // if (ySteps < 0) ySteps = 0;
-    // if (_maxX > 0 && xSteps > _maxX) xSteps = _maxX;
-    // if (_maxY > 0 && ySteps > _maxY) ySteps = _maxY;
+    if (xSteps < _minX) xSteps = 0;
+    if (ySteps < _minY) ySteps = 0;
+    if (xSteps > _maxX) xSteps = _maxX;
+    if (ySteps > _maxY) ySteps = _maxY;
 
     long deltaX = xSteps - _currentX;
     long deltaY = ySteps - _currentY;
