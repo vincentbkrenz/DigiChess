@@ -4,7 +4,7 @@
 // void setup() {
 //   Serial.begin(9600);
 //   while (!Serial) ;
-//   delay(500);
+//   delay(1);
 
 //   Serial.println("*** MicroMaxChess ***");
 //   Serial.println("Press 'c' + ENTER for Computer vs Computer");
@@ -96,7 +96,7 @@
 // void setup() {
 //   Serial.begin(9600);
 //   while(!Serial);
-//   delay(500);
+//   delay(1);
 //   Serial.println("Start");
 //   Serial.println("Press ENTER when ready to start...");
 //   while (Serial.read() != '\n') { /* wait */ }
@@ -180,7 +180,7 @@
 //     Serial.println();
 //   }
 
-//   delay(500);
+//   delay(1);
 //   //engine.waitForEnter();
 // }
 
@@ -189,7 +189,7 @@
 Board board;
 
 void setup() {
-    board.get_gantry()->setCurrentPosition(0, 0); 
+    board.get_gantry()->setCurrentPosition(500, 500); 
     delay(100);
     
 
@@ -198,38 +198,38 @@ void setup() {
 void loop() 
 {
  
-  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_LEFT); //wong: moves +y
-  // delay(500);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  // delay(500);
-  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_RIGHT); //actually top left
-  // delay(500);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  // delay(500);
-  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_LEFT); //doesnt work at all
-  // delay(500);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  // delay(500);
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_LEFT); //wong: moves +y
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1);
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_RIGHT); //actually top left
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1);
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_LEFT); //actually bottom right
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1);
   board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_RIGHT); //doesnt work-> goes +x (left)
-  delay(500);
-  board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  delay(500);
-  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_X);
-  // delay(500);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  // delay(500); 
-  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_X);
-  // delay(500);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  // delay(500);
-  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_Y);
-  // delay(500);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  // delay(500);
-  // board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_Y);
-  // delay(500);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-  // delay(500);
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1);
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_X); //works moves left
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1); 
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_X); //works properly -> moves right
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1);
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_Y); //works properly
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1);
+  board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_Y); //works properly
+  delay(1);
+  board.get_gantry()->moveTo(500, 500, Gantry::Movement::MOVE_STRAIGHT);
+  delay(1);
 }
 
 

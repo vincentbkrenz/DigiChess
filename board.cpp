@@ -156,28 +156,28 @@ void Board::move_half_square(HALF_SQUARE_DIRECTION direction) {
             break;
         case TOP_LEFT:
             gantry.moveTo(
-                gantry.getX() - (squareSize / 2),
+                gantry.getX() + (squareSize / 2),
                 gantry.getY() + (squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
             break;
         case TOP_RIGHT:
             gantry.moveTo(
-                gantry.getX() + (squareSize / 2),
+                gantry.getX() - (squareSize / 2),
                 gantry.getY() + (squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
             break;
         case BOTTOM_LEFT:
             gantry.moveTo(
-                gantry.getX() - (squareSize / 2),
+                gantry.getX() + (squareSize / 2),
                 gantry.getY() - (squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
             break;
         case BOTTOM_RIGHT:
             gantry.moveTo(
-                gantry.getX() + (squareSize / 2),
+                gantry.getX() - (squareSize / 2),
                 gantry.getY() - (squareSize / 2),
                 Gantry::Movement::MOVE_DIAGONAL
             );
