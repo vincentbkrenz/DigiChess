@@ -143,40 +143,40 @@
 //   engine.waitForEnter();
 //   white = !white;
 // }
+/////////////////////////////////////////////////////////////////////////////////////////////
+// #define private public  // hack to expose private members
+// #include "ChessEngine.h"
+// #undef private
 
-#define private public  // hack to expose private members
-#include "ChessEngine.h"
-#undef private
+// ChessEngine engine;
 
-ChessEngine engine;
+// void setup() {
+//   Serial.begin(9600);
+//   while(!Serial);
+//   delay(100);  // allow USB serial to initialize
+//   engine.setSeed(micros());
+// }
 
-void setup() {
-  Serial.begin(9600);
-  while(!Serial);
-  delay(100);  // allow USB serial to initialize
-  engine.setSeed(micros());
-}
+// void loop() {
+//   // Reseed each move for variability
+//   engine.setSeed(micros());
 
-void loop() {
-  // Reseed each move for variability
-  engine.setSeed(micros());
+//   // Choose search depth based on side to move: White (k==0x08) => 4, Black => 3
+//   int depth = (engine.k == 0x08) ? 4 : 3;
+//   engine.playComputerMove(depth);
+//   engine.printMoveAndBoard();
 
-  // Choose search depth based on side to move: White (k==0x08) => 4, Black => 3
-  int depth = (engine.k == 0x08) ? 4 : 3;
-  engine.playComputerMove(depth);
-  engine.printMoveAndBoard();
+//   // Debug: print last 5 moves array
+//   Serial.println("Last 5 moves:");
+//   int count = engine.histCount;
+//   int start = count > 5 ? count - 5 : 0;
+//   for (int i = start; i < count; ++i) {
+//     Serial.print(i);
+//     Serial.print(": ");
+//     for (int j = 0; j < 4; ++j) Serial.print(engine.hist[i][j]);
+//     Serial.println();
+//   }
 
-  // Debug: print last 5 moves array
-  Serial.println("Last 5 moves:");
-  int count = engine.histCount;
-  int start = count > 5 ? count - 5 : 0;
-  for (int i = start; i < count; ++i) {
-    Serial.print(i);
-    Serial.print(": ");
-    for (int j = 0; j < 4; ++j) Serial.print(engine.hist[i][j]);
-    Serial.println();
-  }
-
-  delay(500);
-  //engine.waitForEnter();
-}
+//   delay(500);
+//   //engine.waitForEnter();
+// }

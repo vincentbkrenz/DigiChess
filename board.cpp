@@ -13,10 +13,10 @@ Board::Board() :
 void Board::updateBoard(String move) {
     // move format is always 4 characters, e.g., "e2e4"
 
-    int toFile = 7 - (move.charAt(2) - 'a');
-    int toRank = 7 - (move.charAt(3) - '1');
-    int fromFile = 7 - (move.charAt(0) - 'a');
-    int fromRank = 7 - (move.charAt(1) - '1');
+    int toFile = move.charAt(2) - 'a';
+    int toRank = move.charAt(3) - '1';
+    int fromFile = move.charAt(0) - 'a';
+    int fromRank = move.charAt(1) - '1';
 
     // Update the board: move the piece and clear the source square
     squares[toRank][toFile] = squares[fromRank][fromFile];
@@ -32,9 +32,9 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
 
     electromagnet.off();
 
-    int toFile = 7 - (move.charAt(2) - 'a');
+    int toFile = move.charAt(2) - 'a';
     int toRank = 7 - (move.charAt(3) - '1');
-    int fromFile = 7 - (move.charAt(0) - 'a');
+    int fromFile = move.charAt(0) - 'a';
     int fromRank = 7 - (move.charAt(1) - '1');
 
     // Check if a piece is occupying the destination square
@@ -209,7 +209,36 @@ void Board::move_half_square(HALF_SQUARE_DIRECTION direction) {
 
 
 void Board::printState() {
+    Serial.println();  // Add a blank line for readability
 
+    // Print top column labels
+    Serial.print("   ");  // Align left edge
+    for (char col = 'a'; col <= 'h'; col++) {
+        Serial.print(" ");
+        Serial.print(col);
+    }
+    Serial.println();
+
+    // Print each row from 8 (top) down to 1 (bottom)
+    for (int row = 7; row >= 0; row--) {
+        Serial.print(" ");
+        Serial.print(row + 1);  // Row labels 8 to 1
+        Serial.print(" ");      // Left border
+
+        for (int col = 0; col < 8; col++) {
+            Serial.print("|");
+            Serial.print(squares[row][col]);
+        }
+        Serial.println("|");  // Right border
+    }
+
+    // Print bottom border (just column letters again for reference)
+    Serial.print("   ");
+    for (char col = 'a'; col <= 'h'; col++) {
+        Serial.print(" ");
+        Serial.print(col);
+    }
+    Serial.println();
 }
 
 
