@@ -14,6 +14,7 @@ class Board {
             AVOID,
             STRAIGHT,
             DIAGONAL,
+            RECTANGULAR,
             L_SHAPE,
             CASTLE,
             EN_PASSANT
@@ -48,7 +49,10 @@ class Board {
 
         void moveToSquare(int file, int rank, MOVE_TYPE moveType = STRAIGHT);
 
+        void printState();
+
         Gantry* get_gantry() {return &gantry;};
+        Electromagnet* get_electromagnet() {return &electromagnet;};
 
         private:
             char squares[8][8]; // 2D array representing the chess board

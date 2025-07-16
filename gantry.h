@@ -43,7 +43,8 @@ class Gantry {
         int _stepPinA, _dirPinA;
         int _stepPinB, _dirPinB;
         int _limitSwitchXPin, _limitSwitchYPin;
-        int _currentX, _currentY;
+        int _currentX = 0;
+        int _currentY = 0;
         int _maxX = maxX;
         int _maxY = maxY;
         int _minX = minX;

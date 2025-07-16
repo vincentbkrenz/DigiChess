@@ -10,8 +10,8 @@ const int LIMIT_SWITCH_Y_PIN = 3; // Pin for Y limit switch
 const int ELECTROMAGNET_PIN = 4; // Pin for the electromagnet
 
 
-const int maxX = 200; // Outer limits (in steps)
-const int maxY = 200; // Outer limits (in steps)
+const int maxX = 2000; // Outer limits (in steps)
+const int maxY = 2000; // Outer limits (in steps)
 const int minX = 0;   //Inner limits (in steps)
 const int minY = 0;   //Inner limits (in steps)
 
@@ -26,7 +26,7 @@ const char init_squares[8][8] = {
     {'R','N','K','B','Q','K','N','R'}
 };
 
-const int squareSize = 50; // Size of each square in steps
-const int borderSize = 50; // Size of the border around the board in steps
+const int squareSize = 271; // Size of each square in steps
+const int borderSize = 0; // Size of the border around the board in steps
 
 #endif // CONSTANTS_H

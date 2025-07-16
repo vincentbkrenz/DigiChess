@@ -12,10 +12,11 @@ Board::Board() :
 
 void Board::updateBoard(String move) {
     // move format is always 4 characters, e.g., "e2e4"
-    int fromFile = move.charAt(0) - 'a';
-    int fromRank = move.charAt(1) - '1';
-    int toFile = move.charAt(2) - 'a';
-    int toRank = move.charAt(3) - '1';
+
+    int toFile = 7 - (move.charAt(2) - 'a');
+    int toRank = 7 - (move.charAt(3) - '1');
+    int fromFile = 7 - (move.charAt(0) - 'a');
+    int fromRank = 7 - (move.charAt(1) - '1');
 
     // Update the board: move the piece and clear the source square
     squares[toRank][toFile] = squares[fromRank][fromFile];
@@ -31,10 +32,10 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
 
     electromagnet.off();
 
-    int toFile = move.charAt(2) - 'a';
-    int toRank = move.charAt(3) - '1';
-    int fromFile = move.charAt(0) - 'a';
-    int fromRank = move.charAt(1) - '1';
+    int toFile = 7 - (move.charAt(2) - 'a');
+    int toRank = 7 - (move.charAt(3) - '1');
+    int fromFile = 7 - (move.charAt(0) - 'a');
+    int fromRank = 7 - (move.charAt(1) - '1');
 
     // Check if a piece is occupying the destination square
     if (squares[toRank][toFile] != '.') {
@@ -43,7 +44,8 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
 
 
     // Move the gantry to the destination square
-    moveToSquare(fromFile, fromRank, STRAIGHT);
+    moveToSquare(fromFile, fromRank, RECTANGULAR);
+    delay(500);
 
     //turn on the electromagnet to pick up the piece
     electromagnet.on();
@@ -61,12 +63,16 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
             } else {
                 move_half_square(BOTTOM_RIGHT); // Bottom-right quadrant
             }
+
+            delay(500);
             
             gantry.moveTo(
                 gantry.getX() + (toFile - fromFile) * _squareSize,
-                gantry.getY() + (toRank - fromRank) * _squareSize,
+                gantry.getY() + (-toRank + fromRank) * _squareSize,
                 Gantry::Movement::MOVE_RECTANGULAR
             );
+
+            delay(500);
 
             // Re-center the piece on the square
             if (toFile < 4 && toRank < 4) {
@@ -78,17 +84,26 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
             } else {
                 move_half_square(TOP_LEFT); 
             }
+            
+            delay(500);
 
             break;
 
         case STRAIGHT:
-            moveToSquare(toFile, fromRank, STRAIGHT);
+            delay(500);
+            moveToSquare(toFile, toRank, STRAIGHT);
+            delay(500);
             break;
         case DIAGONAL:
-            moveToSquare(toFile, fromRank, DIAGONAL);
+            delay(500);
+            moveToSquare(toFile, toRank, DIAGONAL);
+            delay(500);
             break;
         case L_SHAPE:
-            moveToSquare(toFile, fromRank, L_SHAPE);
+        case RECTANGULAR:
+            delay(500);
+            moveToSquare(toFile, toRank, L_SHAPE);
+            delay(500);
             break;
         case CASTLE:
             break;
@@ -110,8 +125,8 @@ void Board::reset() {
 
 void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType) {
     // Calculate the target position in steps
-    int targetX = file * _squareSize + _borderSize + (_squareSize / 2); 
-    int targetY = (7 - rank) * _squareSize + _borderSize + (_squareSize / 2); 
+    int targetX = (7 - file) * _squareSize + _borderSize; //+ (_squareSize / 2); 
+    int targetY = (7 - rank) * _squareSize + _borderSize; //+ (_squareSize / 2); 
 
     switch (moveType) {
         case STRAIGHT:
@@ -121,6 +136,7 @@ void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType) {
             gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_DIAGONAL);
             break;
         case L_SHAPE:
+        case RECTANGULAR:
             gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_RECTANGULAR);
             break;
         default:
@@ -189,6 +205,11 @@ void Board::move_half_square(HALF_SQUARE_DIRECTION direction) {
         default:
             break;
     }
+}
+
+
+void Board::printState() {
+
 }
 
 
