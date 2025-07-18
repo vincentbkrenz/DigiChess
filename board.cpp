@@ -48,10 +48,6 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
         capturePiece(toFile, toRank);
     }
 
-    // Update the board... MUST BE DONE AFTER THE CAPTURE TAKES PLACE FOR THE CAPTURE TO WORK
-    updateBoard(move, moveType);
-    printState();
-
     // Move the gantry to the destination square
     moveToSquare(fromFile, fromRank, RECTANGULAR);
     delay(500);
