@@ -99,10 +99,10 @@ void Gantry::home() {
     delay(500);
     
     //Move a bit
-    setCurrentPosition(100, 0);
-    moveTo(0, 100);
+    setCurrentPosition(50, 0);
+    moveTo(0, 50);
 
-    setCurrentPosition(1900, 0); //HOMED POSITION
+    setCurrentPosition(maxX, 0); //HOMED POSITION
 
 }
 

@@ -10,8 +10,8 @@ const int LIMIT_SWITCH_Y_PIN = 3; // Pin for Y limit switch
 const int ELECTROMAGNET_PIN = 4; // Pin for the electromagnet
 
 
-const int maxX = 2000; // Outer limits (in steps)
-const int maxY = 2000; // Outer limits (in steps)
+const int maxX = 2100; // Outer limits (in steps)
+const int maxY = 2100; // Outer limits (in steps)
 const int minX = 0;   //Inner limits (in steps)
 const int minY = 0;   //Inner limits (in steps)
 

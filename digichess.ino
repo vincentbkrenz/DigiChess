@@ -51,11 +51,11 @@ Board board;
 void setup() {
     
   Serial.begin(9600);
-  while(!Serial);
+  //while(!Serial);
   delay(500);
   Serial.println("start");
   
-  board.get_gantry()->setCurrentPosition(0, 0); 
+  //board.get_gantry()->setCurrentPosition(0, 0); 
   delay(2000);
   //board.get_electromagnet()->on(); 
     
@@ -112,19 +112,30 @@ void setup() {
 // // }
 
 void loop() {
-  delay(2000);
-  board.movePiece("e2e4", Board::MOVE_TYPE::AVOID);
-  board.printState();
-  delay(2000);
-  board.moveToSquare(7, 7, Board::MOVE_TYPE::RECTANGULAR);
-  delay(2000);
-  board.movePiece("b1c3", Board::MOVE_TYPE::L_SHAPE);
-  board.printState();
-  delay(2000);
-  board.movePiece("g1a7", Board::MOVE_TYPE::DIAGONAL);
-  board.printState();
-  delay(2000);
-  board.moveToSquare(7, 7, Board::MOVE_TYPE::RECTANGULAR);
+  // delay(2000);
+  // board.movePiece("e2e4", Board::MOVE_TYPE::AVOID);
+  // board.printState();
+  // delay(2000);
+  // board.moveToSquare(7, 7, Board::MOVE_TYPE::RECTANGULAR);
+  // delay(2000);
+  // board.movePiece("b1c3", Board::MOVE_TYPE::L_SHAPE);
+  // board.printState();
+  // delay(2000);
+  // board.movePiece("g1a7", Board::MOVE_TYPE::DIAGONAL);
+  // board.printState();
+  // delay(2000);
+  // board.moveToSquare(7, 7, Board::MOVE_TYPE::RECTANGULAR);
+
+  // for (int i = maxX; i >= 0; i -= 100) {
+    
+  //     board.get_gantry()->moveTo(i, 0);
+  //     Serial.println(i);
+  //     delay(1200);
+  // }
+  board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_RECTANGULAR);
+  delay(500);
+  board.get_gantry()->moveTo(maxX, maxY, Gantry::Movement::MOVE_DIAGONAL);
+  delay(500);
   
   // board.get_electromagnet()->on(); 
   // delay(1000);

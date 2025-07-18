@@ -17,7 +17,8 @@ class Board {
             RECTANGULAR,
             L_SHAPE,
             CASTLE,
-            EN_PASSANT
+            EN_PASSANT,
+            NULL_MOVE 
         };
 
         enum HALF_SQUARE_DIRECTION {
@@ -33,9 +34,9 @@ class Board {
 
         Board();
 
-        //updates_board 
-        void updateBoard(String move);
-        void updateBoard(String move, MOVE_TYPE moveType);
+        //updates board, returns the position of taken piece if captured or "00" if not
+        String updateBoard(String move);
+        String updateBoard(String move, MOVE_TYPE moveType);
 
         // Move a piece from (fromX, fromY) to (toX, toY)
         void movePiece(String move, MOVE_TYPE moveType);

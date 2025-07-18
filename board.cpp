@@ -10,22 +10,39 @@ Board::Board() :
     engine.setSeed(micros());
 }
 
-void Board::updateBoard(String move) {
-    // move format is always 4 characters, e.g., "e2e4"
+String Board::updateBoard(String move) {
+    
+    //placeholder
+    return(updateBoard(move, NULL_MOVE));
+
+}
+
+String Board::updateBoard(String move, MOVE_TYPE moveType) {
+
 
     int toFile = move.charAt(2) - 'a';
-    int toRank = move.charAt(3) - '1';
+    int toRank = 7 - (move.charAt(3) - '1');
     int fromFile = move.charAt(0) - 'a';
-    int fromRank = move.charAt(1) - '1';
+    int fromRank = 7 - (move.charAt(1) - '1');
+
+    char bkp = squares[toRank][toFile]; // Backup the piece at the destination square
 
     // Update the board: move the piece and clear the source square
     squares[toRank][toFile] = squares[fromRank][fromFile];
     squares[fromRank][fromFile] = '.'; // Clear the source square
-}
 
-void Board::updateBoard(String move, MOVE_TYPE moveType) {
-    //placeholder
-    updateBoard(move);
+    // if a piece is captured here
+
+    if (bkp != '.') {
+        String capturedPiece = "";
+        capturedPiece += move.charAt(2);
+        capturedPiece += move.charAt(3);
+        return(capturedPiece);
+    } 
+    else {
+        return("00"); // returns "00" if no piece is captured
+    }
+
 }
 
 void Board::movePiece(String move, MOVE_TYPE moveType) {
@@ -36,6 +53,11 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     int toRank = 7 - (move.charAt(3) - '1');
     int fromFile = move.charAt(0) - 'a';
     int fromRank = 7 - (move.charAt(1) - '1');
+
+    // Update the board
+    updateBoard(move, moveType);
+
+    String pieces = "rrnnbbqkppppppppRRNNBBQKPPPPPPPP"; // All chess pieces
 
     // Check if a piece is occupying the destination square
     if (squares[toRank][toFile] != '.') {
