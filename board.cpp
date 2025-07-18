@@ -6,18 +6,19 @@ Board::Board() :
   gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN), 
    electromagnet(ELECTROMAGNET_PIN), engine() {
     memcpy(squares, init_squares, sizeof(squares));
+    memcpy(cells, init_cells, sizeof(cells));
     gantry.home();
     engine.setSeed(micros());
 }
 
-String Board::updateBoard(String move) {
+void Board::updateBoard(String move) {
     
     //placeholder
-    return(updateBoard(move, NULL_MOVE));
+    updateBoard(move, NULL_MOVE);
 
 }
 
-String Board::updateBoard(String move, MOVE_TYPE moveType) {
+void Board::updateBoard(String move, MOVE_TYPE moveType) {
 
 
     int toFile = move.charAt(2) - 'a';
@@ -25,23 +26,9 @@ String Board::updateBoard(String move, MOVE_TYPE moveType) {
     int fromFile = move.charAt(0) - 'a';
     int fromRank = 7 - (move.charAt(1) - '1');
 
-    char bkp = squares[toRank][toFile]; // Backup the piece at the destination square
-
     // Update the board: move the piece and clear the source square
     squares[toRank][toFile] = squares[fromRank][fromFile];
     squares[fromRank][fromFile] = '.'; // Clear the source square
-
-    // if a piece is captured here
-
-    if (bkp != '.') {
-        String capturedPiece = "";
-        capturedPiece += move.charAt(2);
-        capturedPiece += move.charAt(3);
-        return(capturedPiece);
-    } 
-    else {
-        return("00"); // returns "00" if no piece is captured
-    }
 
 }
 
@@ -54,16 +41,16 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     int fromFile = move.charAt(0) - 'a';
     int fromRank = 7 - (move.charAt(1) - '1');
 
-    // Update the board
-    updateBoard(move, moveType);
-
-    String pieces = "rrnnbbqkppppppppRRNNBBQKPPPPPPPP"; // All chess pieces
 
     // Check if a piece is occupying the destination square
     if (squares[toRank][toFile] != '.') {
         // Handle capture logic here
+        capturePiece(toFile, toRank);
     }
 
+    // Update the board... MUST BE DONE AFTER THE CAPTURE TAKES PLACE FOR THE CAPTURE TO WORK
+    updateBoard(move, moveType);
+    printState();
 
     // Move the gantry to the destination square
     moveToSquare(fromFile, fromRank, RECTANGULAR);
@@ -74,41 +61,9 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
 
     switch (moveType) {
         case AVOID:
-
-            // Divide the board into 4 sections and use diagonal half-square movements
-            if (toFile < 4 && toRank < 4) {
-                move_half_square(TOP_LEFT); // Top-left quadrant
-            } else if (toFile >= 4 && toRank < 4) {
-                move_half_square(TOP_RIGHT); // Top-right quadrant
-            } else if (toFile < 4 && toRank >= 4) {
-                move_half_square(BOTTOM_LEFT); // Bottom-left quadrant
-            } else {
-                move_half_square(BOTTOM_RIGHT); // Bottom-right quadrant
-            }
-
             delay(500);
-            
-            gantry.moveTo(
-                gantry.getX() + (toFile - fromFile) * _squareSize,
-                gantry.getY() + (-toRank + fromRank) * _squareSize,
-                Gantry::Movement::MOVE_RECTANGULAR
-            );
-
+            moveToSquare(toFile, toRank, AVOID);
             delay(500);
-
-            // Re-center the piece on the square
-            if (toFile < 4 && toRank < 4) {
-                move_half_square(BOTTOM_RIGHT); 
-            } else if (toFile >= 4 && toRank < 4) {
-                move_half_square(BOTTOM_LEFT); 
-            } else if (toFile < 4 && toRank >= 4) {
-                move_half_square(TOP_RIGHT); 
-            } else {
-                move_half_square(TOP_LEFT); 
-            }
-            
-            delay(500);
-
             break;
 
         case STRAIGHT:
@@ -145,26 +100,163 @@ void Board::reset() {
 
 }
 
-void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType) {
-    // Calculate the target position in steps
-    int targetX = (7 - file) * _squareSize + _borderSize; //+ (_squareSize / 2); 
-    int targetY = (7 - rank) * _squareSize + _borderSize; //+ (_squareSize / 2); 
+void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType, int fromFile, int fromRank) {
 
-    switch (moveType) {
-        case STRAIGHT:
-            gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_STRAIGHT);
+    if ((moveType == AVOID) || (moveType == CAPTURE)) {
+
+        if ((fromFile == -1) || (fromRank == -1)) {
+            fromFile = file;
+            fromRank = rank;
+        }
+
+         // Divide the board into 4 sections and use diagonal half-square movements
+        if (file < 4 && rank < 4) {
+            move_half_square(TOP_LEFT); // Top-left quadrant
+        } else if (file >= 4 && rank < 4) {
+            move_half_square(TOP_RIGHT); // Top-right quadrant
+        } else if (file < 4 && rank >= 4) {
+            move_half_square(BOTTOM_LEFT); // Bottom-left quadrant
+        } else {
+            move_half_square(BOTTOM_RIGHT); // Bottom-right quadrant
+        }
+
+        delay(500);
+        
+        gantry.moveTo(
+            gantry.getX() + (file - fromFile) * _squareSize,
+            gantry.getY() + (-rank + fromRank) * _squareSize,
+            Gantry::Movement::MOVE_RECTANGULAR
+        );
+
+        delay(500);
+
+        if (moveType == AVOID) {
+            // Re-center the piece on the square
+            if (file < 4 && rank < 4) {
+                move_half_square(BOTTOM_RIGHT); 
+            } else if (file >= 4 && rank < 4) {
+                move_half_square(BOTTOM_LEFT); 
+            } else if (file < 4 && rank >= 4) {
+                move_half_square(TOP_RIGHT); 
+            } else {
+                move_half_square(TOP_LEFT); 
+            }
+        }
+        else { //moveType == CAPTURE (continue to avoid pieces, no recenter)
+            //placeholder
+        }
+        
+    }
+    else {
+        // Calculate the target position in steps
+        int targetX = (7 - file) * _squareSize + _borderSize + (_squareSize / 2); 
+        int targetY = (7 - rank) * _squareSize + _borderSize + (_squareSize / 2); 
+
+        switch (moveType) {
+            case STRAIGHT:
+                gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_STRAIGHT);
+                break;
+            case DIAGONAL:
+                gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_DIAGONAL);
+                break;
+            case L_SHAPE:
+            case RECTANGULAR:
+                gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_RECTANGULAR);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+void Board::capturePiece(int file, int rank) {
+
+    char sym = squares[rank][file];
+
+    //find first availiable cell to hold captured piece, then update cell
+    int side, pos;
+    bool found = false;
+    for (int i = 0; (i < 4) && (!found); i++) {
+        for (int j = 0; (j < 8) && (!found); j++) {
+            if ((final_cells[i][j] == sym) && (cells[i][j] == '#')) {
+                cells[i][j] = sym;
+                side = i;
+                pos = j;
+                found = true;
+            }
+        }
+    }
+
+    //move the gantry to the piece being captured
+    electromagnet.off();
+    moveToSquare(file, rank, RECTANGULAR);
+    delay(500);
+    
+    //move captured piece to square adjacent to cell
+    int adj_file, adj_rank;
+    switch (side) {
+        case 0: // left side
+            adj_file = 0;
+            adj_rank = pos;
             break;
-        case DIAGONAL:
-            gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_DIAGONAL);
+        case 1: // right side
+            adj_file = 7;
+            adj_rank = pos;
             break;
-        case L_SHAPE:
-        case RECTANGULAR:
-            gantry.moveTo(targetX, targetY, Gantry::Movement::MOVE_RECTANGULAR);
+        case 2: // top side
+            adj_file = pos;
+            adj_rank = 7;
+            break;
+        case 3: // bottom side
+            adj_file = pos;
+            adj_rank = 0;
             break;
         default:
             break;
     }
+    electromagnet.on();
+    moveToSquare(adj_file, adj_rank, CAPTURE, file, rank);
+    delay(500);
+
+    //shift the piece onto adjacent cell
+    switch (side) {
+        case 0: // left side
+            move_half_square(NEGATIVE_X);
+            move_half_square(NEGATIVE_X);
+            break;
+        case 1: // right side
+            move_half_square(POSITIVE_X);
+            move_half_square(POSITIVE_X);
+            break;
+        case 2: // top side
+            move_half_square(POSITIVE_Y);
+            move_half_square(POSITIVE_Y);
+            break;
+        case 3: // bottom side
+            move_half_square(NEGATIVE_Y);
+            move_half_square(NEGATIVE_Y);
+            break;
+        default:
+            break;
+    }
+    delay(500);
+
+    // Re-center the piece on the cell
+    if (adj_file < 4 && adj_rank < 4) {
+        move_half_square(BOTTOM_RIGHT); 
+    } else if (adj_file >= 4 && adj_rank < 4) {
+        move_half_square(BOTTOM_LEFT); 
+    } else if (adj_file < 4 && adj_rank >= 4) {
+        move_half_square(TOP_RIGHT); 
+    } else {
+        move_half_square(TOP_LEFT); 
+    }
+    electromagnet.off();
+    delay(500);
+
 }
+
+
 
 void Board::move_half_square(HALF_SQUARE_DIRECTION direction) {
     switch (direction) {
@@ -228,7 +320,6 @@ void Board::move_half_square(HALF_SQUARE_DIRECTION direction) {
             break;
     }
 }
-
 
 void Board::printState() {
     Serial.println();  // Add a blank line for readability

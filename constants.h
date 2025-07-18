@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <Arduino.h>
+
 const int STEP_PIN_A = 10;
 const int DIR_PIN_A = 11;
 const int STEP_PIN_B = 12; 
@@ -24,6 +26,20 @@ const char init_squares[8][8] = {
     {'.','.','.','.','.','.','.','.'},
     {'P','P','P','P','P','P','P','P'},
     {'R','N','K','B','Q','K','N','R'}
+};
+
+const char init_cells[4][9] = { //strings are size 9 due to the nullptr at the end
+    "########", // left side
+    "########", // right side
+    "########", // top side
+    "########"  // bottom side
+};
+
+const char final_cells[4][9] = { //strings are size 9 due to the nullptr at the end
+    "pppppppp", //left side
+    "PPPPPPPP", //right side
+    "rnkbqknr", //top side
+    "RNKBQKNR"  //bottom side
 };
 
 const int squareSize = 271; // Size of each square in steps
