@@ -84,16 +84,18 @@ void Gantry::moveCoreXY(int deltaX, int deltaY) {
 void Gantry::home() {
     //Move in +X direction until X limit switch is pressed
     while (digitalRead(_limitSwitchXPin) == LOW) {
-        stepMotorA(true); // Move +X 
-        stepMotorB(true);
+        // stepMotorA(true); // Move +X 
+        // stepMotorB(true);
+        moveCoreXY(1,0);
     }
 
     delay(500);
 
     // Move in -Y direction until Y limit switch is pressed
     while (digitalRead(_limitSwitchYPin) == LOW) {
-        stepMotorA(false);  // Move -Y (A backward, B forward)
-        stepMotorB(true);
+        // stepMotorA(false);  // Move -Y (A backward, B forward)
+        // stepMotorB(true);
+        moveCoreXY(0,-1);
     }
 
     delay(500);
@@ -128,16 +130,16 @@ void Gantry::setLimitSwitchYPin(int pin) { _limitSwitchYPin = pin; pinMode(_limi
 void Gantry::stepMotorA(bool direction) {
     digitalWrite(_dirPinA, direction ? LOW : HIGH);
     digitalWrite(_stepPinA, HIGH);
-    delay(1);
+    delayMicroseconds(1000);
     digitalWrite(_stepPinA, LOW);
-    delay(1);
+    delayMicroseconds(1000);
 }
 void Gantry::stepMotorB(bool direction) {
     digitalWrite(_dirPinB, direction ? LOW : HIGH);
     digitalWrite(_stepPinB, HIGH);
-    delay(1);
+    delayMicroseconds(1000);
     digitalWrite(_stepPinB, LOW);
-    delay(1);
+    delayMicroseconds(1000);
 }
 void Gantry::singleStep(int motor, bool direction) {
     if (motor == 0) stepMotorA(direction);

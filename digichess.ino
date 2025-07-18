@@ -46,59 +46,67 @@ void loop() {
 
 #include "board.h"
 
-Board board;
+
+void run_loop(Board& board);
 
 void setup() {
-    
+
+  
   Serial.begin(9600);
-  while(!Serial);
+  //while(!Serial);
   delay(500);
   Serial.println("start");
-  
+  Board board;
+    
   //board.get_gantry()->setCurrentPosition(0, 0); 
-  delay(2000);
+  delay(1000);
   //board.get_electromagnet()->on(); 
+
+  while(true){
+    run_loop(board);
+  }
     
 
 }
 
 
+
 // // void loop() 
 // // {
  
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_LEFT); //wong: moves +y
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500);
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_RIGHT); //actually top left
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500);
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_LEFT); //actually bottom right
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500);
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_RIGHT); //doesnt work-> goes +x (left)
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500);
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_X); //works moves left
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500); 
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_X); //works properly -> moves right
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500);
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_Y); //works properly
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500);
-// //   board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_Y); //works properly
-// //   delay(500);
-// //   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
-// //   delay(500);
-// // }
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_LEFT); //wong: moves +y
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500);
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::TOP_RIGHT); //actually top left
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500);
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_LEFT); //actually bottom right
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500);
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::BOTTOM_RIGHT); //doesnt work-> goes +x (left)
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500);
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_X); //works moves left
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500); 
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_X); //works properly -> moves right
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500);
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::POSITIVE_Y); //works properly
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500);
+//   board.move_half_square(Board::HALF_SQUARE_DIRECTION::NEGATIVE_Y); //works properly
+//   delay(500);
+//   board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_STRAIGHT);
+//   delay(500);
+// }
 
 // // void loop() {
 // //   delay(2000);
@@ -111,20 +119,30 @@ void setup() {
 // //     board.moveToSquare(7, 7, Board::MOVE_TYPE::RECTANGULAR);
 // // }
 
-void loop() {
-  delay(2000);
-  board.movePiece("e2e4", Board::MOVE_TYPE::AVOID);
-  board.printState();
-  delay(2000);
-  board.moveToSquare(7, 7, Board::MOVE_TYPE::RECTANGULAR);
-  delay(2000);
-  board.movePiece("b1c3", Board::MOVE_TYPE::L_SHAPE);
-  board.printState();
-  delay(2000);
-  board.movePiece("g1a7", Board::MOVE_TYPE::DIAGONAL);
-  board.printState();
-  delay(2000);
-  board.moveToSquare(7, 7, Board::MOVE_TYPE::RECTANGULAR);
+void run_loop(Board& board) {
+
+  // for (int i = 0; i < 8; i++)
+  // {
+  //   for(int j = 0; j < 8; j++) {
+  //   board.get_electromagnet()->on();
+  //   board.moveToSquare(i,j, Board::MOVE_TYPE::RECTANGULAR);
+  //   delay(500);
+  //   }
+  // }
+
+  // board.get_electromagnet()->on();
+  // board.get_gantry()->moveTo(0, 500, Gantry::Movement::MOVE_RECTANGULAR);
+  // delay(1000);
+  // for (int i = 0; i < maxX; i += 10)
+  // {
+  //   board.get_gantry()->moveTo(i, 500, Gantry::Movement::MOVE_RECTANGULAR);
+  //   delay(500);
+  //   Serial.println(i);
+  // }
+    // board.get_electromagnet()->on();
+    // board.moveToSquare(0, 0, Board::MOVE_TYPE::RECTANGULAR);
+    // delay(500);
+    // board.moveToSquare(7, 7, Board::MOVE_TYPE::DIAGONAL);
 
   // for (int i = maxX; i >= 0; i -= 100) {
     
@@ -141,6 +159,23 @@ void loop() {
   // delay(1000);
   // board.get_electromagnet()->off(); 
   // delay(1000);
+
+  // board.get_electromagnet()->on();
+  // board.moveToSquare(4, 4, Board::MOVE_TYPE::RECTANGULAR);
+  // delay(1000);
+  // board.moveToSquare(7, 0, Board::MOVE_TYPE::AVOID, 4, 4);
+
+
+  // board.movePiece("e2e4", Board::MOVE_TYPE::AVOID);
+  // delay(1000);
+  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_RECTANGULAR);
+  // delay(1000);
+
+  board.get_gantry()->moveTo(0, 0);
+  board.get_gantry()->moveTo(maxX, 0);
+  board.get_gantry()->moveTo(maxX, maxY);
+  board.get_gantry()->moveTo(0, maxY);
+
 }
 
 // // void loop() {
@@ -149,6 +184,10 @@ void loop() {
 // //     board.get_gantry()->moveTo(1900, 0, Gantry::Movement::MOVE_RECTANGULAR);
 // //     delay(5000);
 // // }
+
+void loop() {
+  
+}
 
 
 #endif // CHESS_DEBUG

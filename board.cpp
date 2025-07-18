@@ -58,7 +58,7 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     switch (moveType) {
         case AVOID:
             delay(500);
-            moveToSquare(toFile, toRank, AVOID);
+            moveToSquare(toFile, toRank, AVOID, fromFile, fromRank);
             delay(500);
             break;
 
@@ -119,7 +119,7 @@ void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType, int fromFile, i
         delay(500);
         
         gantry.moveTo(
-            gantry.getX() + (file - fromFile) * _squareSize,
+            gantry.getX() + (-file + fromFile) * _squareSize,
             gantry.getY() + (-rank + fromRank) * _squareSize,
             Gantry::Movement::MOVE_RECTANGULAR
         );
@@ -183,10 +183,15 @@ void Board::capturePiece(int file, int rank) {
         }
     }
 
+    Serial.print(side);
+    Serial.print(" ");
+    Serial.println(pos);
+
     //move the gantry to the piece being captured
     electromagnet.off();
     moveToSquare(file, rank, RECTANGULAR);
-    delay(500);
+    Serial.println("MOVED TO CAPTURED PIECE");
+    delay(2000);
     
     //move captured piece to square adjacent to cell
     int adj_file, adj_rank;
@@ -211,31 +216,40 @@ void Board::capturePiece(int file, int rank) {
             break;
     }
     electromagnet.on();
+    Serial.print(adj_file);
+    Serial.print(" ");
+    Serial.print(adj_rank);
+    Serial.print("  ");
+    Serial.print(file);
+    Serial.print(" ");
+    Serial.println(rank);
     moveToSquare(adj_file, adj_rank, CAPTURE, file, rank);
-    delay(500);
+    Serial.println("MOVED TO ADJACENT CELL");
+    delay(2000);
 
     //shift the piece onto adjacent cell
     switch (side) {
         case 0: // left side
-            move_half_square(NEGATIVE_X);
-            move_half_square(NEGATIVE_X);
+            move_half_square(POSITIVE_X);
+            move_half_square(POSITIVE_X);
             break;
         case 1: // right side
-            move_half_square(POSITIVE_X);
-            move_half_square(POSITIVE_X);
+            move_half_square(NEGATIVE_X);
+            move_half_square(NEGATIVE_X);
             break;
         case 2: // top side
-            move_half_square(POSITIVE_Y);
-            move_half_square(POSITIVE_Y);
+            move_half_square(NEGATIVE_Y);
+            move_half_square(NEGATIVE_Y);
             break;
         case 3: // bottom side
-            move_half_square(NEGATIVE_Y);
-            move_half_square(NEGATIVE_Y);
+            move_half_square(POSITIVE_Y);
+            move_half_square(POSITIVE_Y);
             break;
         default:
             break;
     }
-    delay(500);
+    Serial.println("SHIFTED CAPTURED PIECE");
+    delay(2000);
 
     // Re-center the piece on the cell
     if (adj_file < 4 && adj_rank < 4) {
@@ -248,7 +262,8 @@ void Board::capturePiece(int file, int rank) {
         move_half_square(TOP_LEFT); 
     }
     electromagnet.off();
-    delay(500);
+    Serial.println("RE-CENTERED CAPTURED PIECE");
+    delay(2000);
 
 }
 
@@ -329,7 +344,7 @@ void Board::printState() {
     Serial.println();
 
     // Print each row from 8 (top) down to 1 (bottom)
-    for (int row = 7; row >= 0; row--) {
+    for (int row = 0; row < 8; row++) {
         Serial.print(" ");
         Serial.print(row + 1);  // Row labels 8 to 1
         Serial.print(" ");      // Left border
