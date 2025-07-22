@@ -104,7 +104,7 @@ void Gantry::home() {
     setCurrentPosition(50, 0);
     moveTo(0, 50);
 
-    setCurrentPosition(maxX, 0); //HOMED POSITION
+    setCurrentPosition(_homingX, 0); //HOMED POSITION
 
 }
 

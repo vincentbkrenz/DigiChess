@@ -9,6 +9,7 @@ Board::Board() :
     memcpy(cells, init_cells, sizeof(cells));
     gantry.home();
     engine.setSeed(micros());
+    electromagnet.off();
 }
 
 void Board::updateBoard(String move) {
@@ -93,8 +94,35 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
 } 
 
 void Board::reset() {
-
+    electromagnet.off();
+    for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 8; i++) {
+            moveToSquare(i, j, RECTANGULAR);
+            electromagnet.on();
+            int x = gantry.getX();
+            int y = gantry.getY();
+            gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
+            gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
+            gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
+            delay(600);
+            electromagnet.off();
+        }
+    }
+    for (int j = 6; j < 8; j++) {
+        for (int i = 0; i < 8; i++) {
+            moveToSquare(i, j, RECTANGULAR);
+            electromagnet.on();
+            int x = gantry.getX();
+            int y = gantry.getY();
+            gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
+            gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
+            gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
+            delay(600);
+            electromagnet.off();
+        }
+    }
 }
+
 
 void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType, int fromFile, int fromRank) {
 
@@ -145,8 +173,8 @@ void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType, int fromFile, i
     }
     else {
         // Calculate the target position in steps
-        int targetX = (7 - file) * _squareSize + _borderSize + (_squareSize / 2); 
-        int targetY = (7 - rank) * _squareSize + _borderSize + (_squareSize / 2); 
+        int targetX = (7 - file) * _squareSize + _x_borderSize + (_squareSize / 2); 
+        int targetY = (7 - rank) * _squareSize + _y_borderSize + (_squareSize / 2); 
 
         switch (moveType) {
             case STRAIGHT:
@@ -191,7 +219,7 @@ void Board::capturePiece(int file, int rank) {
     electromagnet.off();
     moveToSquare(file, rank, RECTANGULAR);
     Serial.println("MOVED TO CAPTURED PIECE");
-    delay(2000);
+    delay(500);
     
     //move captured piece to square adjacent to cell
     int adj_file, adj_rank;
@@ -225,45 +253,83 @@ void Board::capturePiece(int file, int rank) {
     Serial.println(rank);
     moveToSquare(adj_file, adj_rank, CAPTURE, file, rank);
     Serial.println("MOVED TO ADJACENT CELL");
-    delay(2000);
+    delay(500);
 
-    //shift the piece onto adjacent cell
+    int targetX = (7 - adj_file) * _squareSize + _x_borderSize + (_squareSize / 2); 
+    int targetY = (7 - adj_rank) * _squareSize + _y_borderSize + (_squareSize / 2); 
+
     switch (side) {
         case 0: // left side
             move_half_square(POSITIVE_X);
-            move_half_square(POSITIVE_X);
+            delay(500);
+            if (gantry.getY() >= targetY ) {
+                move_half_square(POSITIVE_Y);
+            } else {
+                move_half_square(NEGATIVE_Y);
+            }
             break;
         case 1: // right side
             move_half_square(NEGATIVE_X);
-            move_half_square(NEGATIVE_X);
+            delay(500);
+            if (gantry.getY() >= targetY) {
+                move_half_square(POSITIVE_Y);
+            } else {
+                move_half_square(NEGATIVE_Y);
+            }
             break;
-        case 2: // top side
+        case 2: // bottom side
             move_half_square(NEGATIVE_Y);
-            move_half_square(NEGATIVE_Y);
+            delay(500);
+            if (gantry.getX() < targetX) {
+                move_half_square(POSITIVE_X);
+            } else {
+                move_half_square(NEGATIVE_X);
+            }
             break;
-        case 3: // bottom side
+        case 3: // top side
             move_half_square(POSITIVE_Y);
-            move_half_square(POSITIVE_Y);
+            delay(500);
+            if (gantry.getX() < targetY) {
+                move_half_square(POSITIVE_X);
+            } else {
+                move_half_square(NEGATIVE_X);
+            }
             break;
         default:
             break;
     }
     Serial.println("SHIFTED CAPTURED PIECE");
-    delay(2000);
+    Serial.print(gantry.getX());
+    Serial.print("  ");
+    Serial.println(gantry.getY());
+    delay(500);
 
-    // Re-center the piece on the cell
-    if (adj_file < 4 && adj_rank < 4) {
-        move_half_square(BOTTOM_RIGHT); 
-    } else if (adj_file >= 4 && adj_rank < 4) {
-        move_half_square(BOTTOM_LEFT); 
-    } else if (adj_file < 4 && adj_rank >= 4) {
-        move_half_square(TOP_RIGHT); 
-    } else {
-        move_half_square(TOP_LEFT); 
-    }
+    // // Re-center the piece on the cell
+    // if (side % 2 ==0) { // left or right side
+    //     if (adj_file < 4) {
+    //         move_half_square(TOP_RIGHT); 
+    //     } else {
+    //         move_half_square(TOP_LEFT); 
+    //     }
+    // } else { // top or bottom side
+    //     if (adj_rank < 4) {
+    //         move_half_square(BOTTOM_LEFT); 
+    //     } else {
+    //         move_half_square(BOTTOM_RIGHT); 
+    //     }
+    // }
+    // if (adj_file < 4 && adj_rank < 4) {
+    //     move_half_square(BOTTOM_RIGHT); 
+    // } else if (adj_file >= 4 && adj_rank < 4) {
+    //     move_half_square(BOTTOM_LEFT); 
+    // } else if (adj_file < 4 && adj_rank >= 4) {
+    //     move_half_square(TOP_RIGHT); 
+    // } else {
+    //     move_half_square(TOP_LEFT); 
+    // }
     electromagnet.off();
     Serial.println("RE-CENTERED CAPTURED PIECE");
-    delay(2000);
+    delay(500);
 
 }
 

@@ -60,7 +60,8 @@ class Board {
             char squares[8][8]; // 2D array representing the chess board
             char cells[4][9]; //cells for captured pieces //strings are size 9 due to nullptr at end
             int _squareSize = squareSize; //Size of each square in steps
-            int _borderSize = borderSize; //Size of the border around the board in steps
+            int _y_borderSize = y_borderSize; //Size of the y border around the board in steps
+            int _x_borderSize = x_borderSize;
             Gantry gantry; // Gantry for moving pieces
             Electromagnet electromagnet; // Electromagnet for picking up pieces
             ChessEngine engine;

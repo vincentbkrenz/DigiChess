@@ -49,6 +49,7 @@ class Gantry {
         int _maxY = maxY;
         int _minX = minX;
         int _minY = minY;
+        int _homingX = homingX; 
 
 
         void stepMotorA(bool direction);

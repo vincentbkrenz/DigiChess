@@ -53,7 +53,7 @@ void setup() {
 
   
   Serial.begin(9600);
-  //while(!Serial);
+  while(!Serial);
   delay(500);
   Serial.println("start");
   Board board;
@@ -62,6 +62,8 @@ void setup() {
   delay(1000);
   //board.get_electromagnet()->on(); 
 
+  board.reset();
+  
   while(true){
     run_loop(board);
   }
@@ -121,69 +123,91 @@ void setup() {
 
 void run_loop(Board& board) {
 
-  // for (int i = 0; i < 8; i++)
-  // {
-  //   for(int j = 0; j < 8; j++) {
-  //   board.get_electromagnet()->on();
-  //   board.moveToSquare(i,j, Board::MOVE_TYPE::RECTANGULAR);
-  //   delay(500);
-  //   }
-  // }
-
-  // board.get_electromagnet()->on();
-  // board.get_gantry()->moveTo(0, 500, Gantry::Movement::MOVE_RECTANGULAR);
-  // delay(1000);
-  // for (int i = 0; i < maxX; i += 10)
-  // {
-  //   board.get_gantry()->moveTo(i, 500, Gantry::Movement::MOVE_RECTANGULAR);
-  //   delay(500);
-  //   Serial.println(i);
-  // }
-    // board.get_electromagnet()->on();
-    // board.moveToSquare(0, 0, Board::MOVE_TYPE::RECTANGULAR);
-    // delay(500);
-    // board.moveToSquare(7, 7, Board::MOVE_TYPE::DIAGONAL);
-
-  // for (int i = maxX; i >= 0; i -= 100) {
-    
-  //     board.get_gantry()->moveTo(i, 0);
-  //     Serial.println(i);
-  //     delay(1200);
-  // }
   // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_RECTANGULAR);
+  // delay(2000);
+  // board.get_gantry()->moveTo(maxX, 0, Gantry::Movement::MOVE_RECTANGULAR);
+  // delay(2000);
+  // board.get_gantry()->moveTo(maxX, maxY, Gantry::Movement::MOVE_RECTANGULAR);
+  // delay(2000);
+  // board.get_gantry()->moveTo(0, maxY, Gantry::Movement::MOVE_RECTANGULAR);
+  // delay(2000);
+  // for (int i = 0; i < maxX; i += 10) {
+  //   board.get_gantry()->moveTo(i, 500, Gantry::Movement::MOVE_RECTANGULAR);
+  //   Serial.println(i);
+  //   delay(300);
+  // }
+ 
+  // board.movePiece("e4a1", Board::MOVE_TYPE::AVOID);
   // delay(500);
-  // board.get_gantry()->moveTo(maxX, maxY, Gantry::Movement::MOVE_DIAGONAL);
+  // board.movePiece("e4b1", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4c1", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4d1", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4e1", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4f1", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4g1", Board::MOVE_TYPE::AVOID);
   // delay(500);
   
-  // board.get_electromagnet()->on(); 
-  // delay(1000);
-  // board.get_electromagnet()->off(); 
-  // delay(1000);
+  board.movePiece("e4a2", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4b2", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4c2", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4d2", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4e2", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4f2", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4g2", Board::MOVE_TYPE::AVOID);
+  delay(500);
 
-  // board.get_electromagnet()->on();
-  // board.moveToSquare(4, 4, Board::MOVE_TYPE::RECTANGULAR);
-  // delay(1000);
-  // board.moveToSquare(7, 0, Board::MOVE_TYPE::AVOID, 4, 4);
+  board.movePiece("e4a7", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4b7", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4c7", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4d7", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4e7", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4f7", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4g7", Board::MOVE_TYPE::AVOID);
+  delay(500);
+
+  board.movePiece("e4a8", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4b8", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4c8", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4d8", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4e8", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4f8", Board::MOVE_TYPE::AVOID);
+  delay(500);
+  board.movePiece("e4g8", Board::MOVE_TYPE::AVOID);
+  delay(500);
 
 
-  // board.movePiece("e2e4", Board::MOVE_TYPE::AVOID);
-  // delay(1000);
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_RECTANGULAR);
-  // delay(1000);
 
-  board.get_gantry()->moveTo(0, 0);
-  board.get_gantry()->moveTo(maxX, 0);
-  board.get_gantry()->moveTo(maxX, maxY);
-  board.get_gantry()->moveTo(0, maxY);
+  
+
+   
+  
+  
 
 }
 
-// // void loop() {
-// //     board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_RECTANGULAR);
-// //     delay(500);
-// //     board.get_gantry()->moveTo(1900, 0, Gantry::Movement::MOVE_RECTANGULAR);
-// //     delay(5000);
-// // }
+
 
 void loop() {
   
