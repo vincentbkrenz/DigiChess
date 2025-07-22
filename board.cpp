@@ -43,15 +43,47 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     int fromRank = 7 - (move.charAt(1) - '1');
 
 
-    // Check if a piece is occupying the destination square
-    if (squares[toRank][toFile] != '.') {
-        // Handle capture logic here
-        capturePiece(toFile, toRank);
-    }
+    if (moveType != CASTLE) {
+        // Check if a piece is occupying the destination square
+        if (squares[toRank][toFile] != '.') {
+            // Handle capture logic here
+            capturePiece(toFile, toRank);
+        }
+        // Move the gantry to the destination square
+        moveToSquare(fromFile, fromRank, RECTANGULAR);
+        delay(500);
 
-    // Move the gantry to the destination square
-    moveToSquare(fromFile, fromRank, RECTANGULAR);
-    delay(500);
+    } else if (moveType == EN_PASSANT) {
+        movePiece(move, DIAGONAL);
+        delay(500);
+        if ((toRank - fromRank) < 0) { // bottom player move
+            capturePiece(toFile, toRank + 1); //captures piece below
+            squares[toRank + 1][toFile] = '.'; // Clear the captured pawns square
+        } else { //top player move
+            capturePiece(toFile, toRank - 1); //captures piece above
+            squares[toRank - 1][toFile] = '.'; //Clear the captured pawns square
+        }
+
+    } else { // moveType == CASTLE
+        // movePiece(move, STRAIGHT); //king is moved to proper space
+        // delay(500);
+        // String rook_move[5];
+        // if (toFile < 4) { //queenside castle
+        //     rook_move += ('a' + toFile - 2); //move from 2 spaces left of king ending
+        //     rook_move += ('1' + (7 - fromRank)); //move from same rank as before
+        //     rook_move += ('a' + toFile + 1); //move to 1 space right of king ending
+        //     rook_move += ('1' + (7 - toRank)); //move to same rank as before
+        // }
+        // else { //kindside castle
+        //     rook_move += ('a' + toFile + 1); //move from 1 space right of king ending
+        //     rook_move += ('1' + (7 - fromRank)); //move from same rank as before
+        //     rook_move += ('a' + toFile - 1); //move to 1 space left of king ending
+        //     rook_move += ('1' + (7 - toRank)); //move to same rank as before
+        // }
+        // movePiece(rook_move, AVOID);
+        // updateBoard(rook_move);
+        // delay(500);
+    }
 
     //turn on the electromagnet to pick up the piece
     electromagnet.on();
@@ -165,6 +197,7 @@ void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType, int fromFile, i
             } else {
                 move_half_square(TOP_LEFT); 
             }
+            delay(500);
         }
         else { //moveType == CAPTURE (continue to avoid pieces, no recenter)
             //placeholder
@@ -262,7 +295,7 @@ void Board::capturePiece(int file, int rank) {
         case 0: // left side
             move_half_square(POSITIVE_X);
             delay(500);
-            if (gantry.getY() >= targetY ) {
+            if (gantry.getY() < targetY ) {
                 move_half_square(POSITIVE_Y);
             } else {
                 move_half_square(NEGATIVE_Y);
@@ -271,7 +304,7 @@ void Board::capturePiece(int file, int rank) {
         case 1: // right side
             move_half_square(NEGATIVE_X);
             delay(500);
-            if (gantry.getY() >= targetY) {
+            if (gantry.getY() < targetY) {
                 move_half_square(POSITIVE_Y);
             } else {
                 move_half_square(NEGATIVE_Y);
@@ -289,7 +322,7 @@ void Board::capturePiece(int file, int rank) {
         case 3: // top side
             move_half_square(POSITIVE_Y);
             delay(500);
-            if (gantry.getX() < targetY) {
+            if (gantry.getX() < targetX) {
                 move_half_square(POSITIVE_X);
             } else {
                 move_half_square(NEGATIVE_X);

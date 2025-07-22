@@ -53,7 +53,7 @@ void setup() {
 
   
   Serial.begin(9600);
-  while(!Serial);
+  //while(!Serial);
   delay(500);
   Serial.println("start");
   Board board;
@@ -63,7 +63,7 @@ void setup() {
   //board.get_electromagnet()->on(); 
 
   board.reset();
-  
+
   while(true){
     run_loop(board);
   }
@@ -151,36 +151,36 @@ void run_loop(Board& board) {
   // delay(500);
   // board.movePiece("e4g1", Board::MOVE_TYPE::AVOID);
   // delay(500);
-  
-  board.movePiece("e4a2", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4b2", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4c2", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4d2", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4e2", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4f2", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4g2", Board::MOVE_TYPE::AVOID);
-  delay(500);
+  // //////////////////////////////////////////////////////////
+  // board.movePiece("e4a2", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4b2", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4c2", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4d2", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4e2", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4f2", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4g2", Board::MOVE_TYPE::AVOID);
+  // delay(500);
 
-  board.movePiece("e4a7", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4b7", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4c7", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4d7", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4e7", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4f7", Board::MOVE_TYPE::AVOID);
-  delay(500);
-  board.movePiece("e4g7", Board::MOVE_TYPE::AVOID);
-  delay(500);
+  // board.movePiece("e4a7", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4b7", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4c7", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4d7", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4e7", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4f7", Board::MOVE_TYPE::AVOID);
+  // delay(500);
+  // board.movePiece("e4g7", Board::MOVE_TYPE::AVOID);
+  // delay(500);
 
   board.movePiece("e4a8", Board::MOVE_TYPE::AVOID);
   delay(500);
@@ -197,9 +197,9 @@ void run_loop(Board& board) {
   board.movePiece("e4g8", Board::MOVE_TYPE::AVOID);
   delay(500);
 
+////////////////////////////////////////
 
 
-  
 
    
   

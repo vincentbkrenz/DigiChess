@@ -44,7 +44,7 @@ const char final_cells[4][9] = { //strings are size 9 due to the nullptr at the 
 };
 
 const int squareSize = 220; // Size of each square in steps
-const int y_borderSize = 130; // Size of the border around the board in steps
-const int x_borderSize = 220;
+const int y_borderSize = 150; // Size of the border around the board in steps
+const int x_borderSize = 275;
 
 #endif // CONSTANTS_H
