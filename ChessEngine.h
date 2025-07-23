@@ -54,8 +54,8 @@ public:
   void gameOver();
   void bkp();
   void serialBoard();
-  void playComputerMove(int depth);
-  void printMoveAndBoard();
+  bool playComputerMove(int depth); //returns false if gameOver
+  String printMoveAndBoard();
   void waitForEnter();
   int readNumber();
   String getLastMove();
@@ -185,7 +185,7 @@ inline short ChessEngine::D(short q, short l, short e, unsigned char E, unsigned
   return m += m < e;
 }
 
-inline void ChessEngine::playComputerMove(int depth) {
+inline bool ChessEngine::playComputerMove(int depth) {
   // 1) Detect 3‐fold repetition FOR ONE SIDE ONLY
   bool breakLoop = false;
   if (histCount >= 6) {
@@ -206,7 +206,10 @@ inline void ChessEngine::playComputerMove(int depth) {
     // normal alpha‐beta search
     K = I; N = 0; T = 0x3F;
     int score = D(-I, I, Q, O, 1, depth);
-    if (!(score > -I + 1)) gameOver();
+    if (!(score > -I + 1)) {
+      gameOver();
+      return(false);
+    }
   }
 
   // 3) Shift history left & append this move
@@ -216,14 +219,16 @@ inline void ChessEngine::playComputerMove(int depth) {
 
   strcpy(lastM, c);
   ++mn;
+  return(true);
 }
 
 
-inline void ChessEngine::printMoveAndBoard() {
+inline String ChessEngine::printMoveAndBoard() {
   Serial.print(mn);
   Serial.print(k == 0x08 ? ". " : "... ");
   Serial.println(c);
   serialBoard();
+  return(String(c));
 }
 
 inline void ChessEngine::serialBoard() {
@@ -252,7 +257,7 @@ inline int ChessEngine::readNumber() {
 inline String ChessEngine::getLastMove() { return String(c); }
 
 inline void ChessEngine::gameOver() {
-  Serial.println("Game Over"); while(true);
+  Serial.println("Game Over");
 }
 
 #endif // CHESS_ENGINE_H

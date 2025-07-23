@@ -56,8 +56,11 @@ class Board {
 
         void printState();
 
+        MOVE_TYPE getMoveType(String move);
+
         Gantry* get_gantry() {return &gantry;};
         Electromagnet* get_electromagnet() {return &electromagnet;};
+        ChessEngine* get_engine() {return &engine;};
 
         private:
             char squares[8][8]; // 2D array representing the chess board

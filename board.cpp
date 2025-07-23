@@ -12,6 +12,21 @@ Board::Board() :
     electromagnet.off();
 }
 
+Board::MOVE_TYPE Board::getMoveType(String move) {
+
+    int dF = abs(move.charAt(2) - move.charAt(0));
+    int dR = abs(move.charAt(3) - move.charAt(1));
+
+    if (dF == dR) { //along a diagonal
+        return(DIAGONAL);
+    } else if (dF == 0 || dR == 0) { //straight
+        return(RECTANGULAR);
+    } else { //L-shaped, avoid other pieces
+        return(AVOID);
+    } 
+
+}
+
 void Board::updateBoard(String move) {
     
     //placeholder

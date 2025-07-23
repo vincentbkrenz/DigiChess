@@ -1,5 +1,5 @@
 
-#define CHESS_DEBUG false
+#define CHESS_DEBUG true
 
 #if CHESS_DEBUG
 
@@ -7,23 +7,35 @@
 #include "ChessEngine.h"
 #undef private
 
-ChessEngine engine;
+#include "board.h"
+#include "gantry.h"
+#include "constants.h"
+#include "electromagnet.h"
+#include <Arduino.h>
+
+Board board;
 
 void setup() {
   Serial.begin(9600);
-  while(!Serial);
-  delay(100);  // allow USB serial to initialize
-  engine.setSeed(micros());
+  delay(100); 
+  board.get_engine()->setSeed(micros());
+  board.reset_wiggle();
 }
 
 void loop() {
   // Reseed each move for variability
-  engine.setSeed(micros());
+  //engine.setSeed(micros());
 
   // Choose search depth based on side to move: White (k==0x08) => 4, Black => 3
-  int depth = (engine.k == 0x08) ? 4 : 3;
-  engine.playComputerMove(depth);
-  engine.printMoveAndBoard();
+  int depth = (board.get_engine()->k == 0x08) ? 4 : 3;
+  bool gameOver = false;
+  while (!gameOver) {
+    gameOver = !(board.get_engine()->playComputerMove(depth));
+    String move = board.get_engine()->printMoveAndBoard();
+    Board::MOVE_TYPE moveType = board.getMoveType(move);
+    board.movePiece(move, moveType);
+    delay(800);
+  }
 
   // // Debug: print last 5 moves array
   // Serial.println("Last 5 moves:");
@@ -36,7 +48,7 @@ void loop() {
   //   Serial.println();
   // }
 
-  delay(500);
+  while(true);
   //engine.waitForEnter();
 }
 
