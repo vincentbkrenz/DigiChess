@@ -42,8 +42,11 @@ class Board {
         // Move a piece from (fromX, fromY) to (toX, toY)
         void movePiece(String move, MOVE_TYPE moveType);
 
-        // Reset the board to the initial chess position
-        void reset();
+        // make sure each piece is centered on the square
+        void reset_wiggle();
+
+        void reset_from_capture();
+        
 
         void move_half_square(HALF_SQUARE_DIRECTION direction);
 

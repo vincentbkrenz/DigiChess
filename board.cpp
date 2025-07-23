@@ -86,6 +86,7 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     }
 
     //turn on the electromagnet to pick up the piece
+    ////////////////////////////////////////////////////////////////
     electromagnet.on();
 
     switch (moveType) {
@@ -125,34 +126,134 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     updateBoard(move, moveType);
 } 
 
-void Board::reset() {
+#ifndef wiggle
+#define wiggle false
+#endif
+
+void Board::reset_wiggle() {
+    #if wiggle
+
     electromagnet.off();
     for (int j = 0; j < 2; j++) {
-        for (int i = 0; i < 8; i++) {
-            moveToSquare(i, j, RECTANGULAR);
-            electromagnet.on();
-            int x = gantry.getX();
-            int y = gantry.getY();
-            gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
-            gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
-            gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
-            delay(600);
-            electromagnet.off();
+        if (j == 0) {
+            for (int i = 0; i < 8; i++) {
+                moveToSquare(i, j, RECTANGULAR);
+                electromagnet.on();
+                int x = gantry.getX();
+                int y = gantry.getY();
+                gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
+                delay(600);
+                electromagnet.off();
+            }
+        } else { // j == 1
+            for (int i = 7; i >= 0; i--) {
+                moveToSquare(i, j, RECTANGULAR);
+                electromagnet.on();
+                int x = gantry.getX();
+                int y = gantry.getY();
+                gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
+                delay(600);
+                electromagnet.off();
+            }
         }
     }
     for (int j = 6; j < 8; j++) {
-        for (int i = 0; i < 8; i++) {
-            moveToSquare(i, j, RECTANGULAR);
-            electromagnet.on();
-            int x = gantry.getX();
-            int y = gantry.getY();
-            gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
-            gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
-            gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
-            delay(600);
-            electromagnet.off();
+        if (j == 6) {
+            for (int i = 0; i < 8; i++) {
+                moveToSquare(i, j, RECTANGULAR);
+                electromagnet.on();
+                int x = gantry.getX();
+                int y = gantry.getY();
+                gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
+                delay(600);
+                electromagnet.off();
+            }
+        } else { //j == 7
+            for (int i = 7; i >= 0; i--) {
+                moveToSquare(i, j, RECTANGULAR);
+                electromagnet.on();
+                int x = gantry.getX();
+                int y = gantry.getY();
+                gantry.moveTo(x + 30, y + 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x - 30, y - 30, Gantry::Movement::MOVE_RECTANGULAR);
+                gantry.moveTo(x, y, Gantry::Movement::MOVE_RECTANGULAR);
+                delay(600);
+                electromagnet.off();
+            }
         }
     }
+
+    #else
+    electromagnet.off();
+    for (int j = 6; j < 8; j++) {
+        if (j == 7) {
+            for (int i = 0; i < 8; i++) {
+                moveToSquare(i, j, RECTANGULAR);
+                electromagnet.on();
+                move_half_square(NEGATIVE_Y);
+                move_half_square(NEGATIVE_Y);
+                delay(200);
+                move_half_square(POSITIVE_Y);
+                move_half_square(POSITIVE_Y);
+                delay(500);
+                electromagnet.off();
+            }
+        } else { // j == 6
+            for (int i = 7; i >= 0; i--) {
+                moveToSquare(i, j, RECTANGULAR);
+                 electromagnet.on();
+                move_half_square(POSITIVE_Y);
+                move_half_square(POSITIVE_Y);
+                delay(200);
+                move_half_square(NEGATIVE_Y);
+                move_half_square(NEGATIVE_Y);
+                delay(500);
+                electromagnet.off();
+            }
+        }
+    }
+    for (int j = 0; j < 2; j++) { 
+        if (j == 0) {
+            for (int i = 0; i < 8; i++) {
+                moveToSquare(i, j, RECTANGULAR);
+                electromagnet.on();
+                move_half_square(POSITIVE_Y);
+                move_half_square(POSITIVE_Y);
+                delay(200);
+                move_half_square(NEGATIVE_Y);
+                move_half_square(NEGATIVE_Y);
+                delay(500);
+                electromagnet.off();
+            }
+        } else { //j == 1
+            for (int i = 7; i >= 0; i--) {
+                moveToSquare(i, j, RECTANGULAR);
+                electromagnet.on();
+                move_half_square(NEGATIVE_Y);
+                move_half_square(NEGATIVE_Y);
+                delay(200);
+                move_half_square(POSITIVE_Y);
+                move_half_square(POSITIVE_Y);
+                delay(500);
+                electromagnet.off();
+            }
+        }
+    }
+
+    #endif //#if wiggle
+
+    
+    
+}
+
+void Board::reset_from_capture() {
+    
 }
 
 
