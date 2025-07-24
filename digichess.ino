@@ -1,5 +1,5 @@
 
-#define CHESS_DEBUG true
+#define CHESS_DEBUG false
 
 #if CHESS_DEBUG
 
@@ -65,7 +65,7 @@ void setup() {
 
   
   Serial.begin(9600);
-  //while(!Serial);
+ // while(!Serial);
   delay(500);
   Serial.println("start");
   Board board;
@@ -135,222 +135,35 @@ void setup() {
 
 void run_loop(Board& board) {
 
-  // board.get_gantry()->moveTo(0, 0, Gantry::Movement::MOVE_RECTANGULAR);
-  // delay(2000);
-  // board.get_gantry()->moveTo(maxX, 0, Gantry::Movement::MOVE_RECTANGULAR);
-  // delay(2000);
-  // board.get_gantry()->moveTo(maxX, maxY, Gantry::Movement::MOVE_RECTANGULAR);
-  // delay(2000);
-  // board.get_gantry()->moveTo(0, maxY, Gantry::Movement::MOVE_RECTANGULAR);
-  // delay(2000);
-  // for (int i = 0; i < maxX; i += 10) {
-  //   board.get_gantry()->moveTo(i, 500, Gantry::Movement::MOVE_RECTANGULAR);
-  //   Serial.println(i);
-  //   delay(300);
-  // }
- 
-board.movePiece("c2c4", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("d7d5", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("b2b3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("c8e6", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d2d3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("b8c6", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("b1c3", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("g8f6", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("c1f4", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("f6h5", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("f4e3", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d5d4", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("g2g4", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("h5f6", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("g4g5", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f6g4", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("e3d2", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d4c3", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d2c3", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("h7h6", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f2f3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("g4e3", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d1c1", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("e3f1", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("e1f1", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("a7a5", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("a1b1", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("c6d4", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("b3b4", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("h6g5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("c1g5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("a5b4", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("b1b4", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("c7c6", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f3f4", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("g7g6", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("g5e5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d4c2", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("e5h8", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("c2b4", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("c3b4", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("a8a2", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("g1f3", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("b7b5", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f3d4", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("a2a1", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("b4e1", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d8a5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("h8h4", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("e6d7", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("c4b5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("c6b5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("h1g1", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f8g7", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d4f3", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("g7f6", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("h4h6", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("d7f5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("g1h1", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f5g4", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("f1f2", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("a5a7", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("e2e3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("a1a3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f3e5", Board::MOVE_TYPE::AVOID);
-delay(800);
-board.movePiece("f6e5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("f4e5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("a3d3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("e1b4", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("a7a2", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f2g3", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("a2b2", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("h6h8", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("e8d7", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("e5e6", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("g4e6", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("h8b2", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d3e3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("g3f4", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("e3b3", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("b2d2", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("d7e8", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("b4c5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("f7f5", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("h1e1", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("e8f7", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d2e2", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("e6d5", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("e2e7", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("f7g8", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("e7d8", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("g8h7", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("d8d7", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("h7h6", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("c5f8", Board::MOVE_TYPE::DIAGONAL);
-delay(800);
-board.movePiece("h6h5", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
-board.movePiece("d7h7", Board::MOVE_TYPE::RECTANGULAR);
-delay(800);
+String moves[] = {
+  "e2e4", "e7e5",
+  "f2f4", "e5f4",
+  "f1c4", "d8h4",
+  "e1f1", "b7b5",
+  "c4b5", "g8f6",
+  "g1f3", "h4h6",
+  "d2d3", "f6h5",
+  "f3h4", "h5g3",
+  "h2g3", "h6b6",
+  "b1c3", "f8c5",
+  "d3d4", "c5d4",
+  "d1f3", "b6b2",
+  "c1b2", "c8a6",
+  "f1e1", "a6e2",
+  "c3d5", "e2f3",
+  "h1f1", "f3g4",
+  "f1f4", "g4h3",
+  "f4f7", "h3g1",
+  "f7d7", "e8f8",
+  "d7d8"
+};
 
-while(true);
+ for (int i = 0; i < 39; i++) {
+    board.movePiece(moves[i], board.getMoveType(moves[i]));
+ }
 
-
-
-   
   
-  
+  while (true);
 
 }
 

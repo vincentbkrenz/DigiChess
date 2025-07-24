@@ -19,14 +19,14 @@ const int minX = 0;   //Inner limits (in steps)
 const int minY = 0;   //Inner limits (in steps)
 
 const char init_squares[8][8] = {
-    {'r','n','k','b','q','k','n','r'},
+    {'r','n','b','q','k','b','n','r'},
     {'p','p','p','p','p','p','p','p'},
     {'.','.','.','.','.','.','.','.'},
     {'.','.','.','.','.','.','.','.'},
     {'.','.','.','.','.','.','.','.'},
     {'.','.','.','.','.','.','.','.'},
     {'P','P','P','P','P','P','P','P'},
-    {'R','N','K','B','Q','K','N','R'}
+    {'R','N','B','Q','K','B','N','R'}
 };
 
 const char init_cells[4][9] = { //strings are size 9 due to the nullptr at the end
@@ -39,8 +39,8 @@ const char init_cells[4][9] = { //strings are size 9 due to the nullptr at the e
 const char final_cells[4][9] = { //strings are size 9 due to the nullptr at the end
     "pppppppp", //left side
     "PPPPPPPP", //right side
-    "rnkbqknr", //bottom side
-    "RNKBQKNR"  //top side
+    "rnbkqbnr", //bottom side
+    "RNBKQBNR"  //top side
 };
 
 const int squareSize = 220; // Size of each square in steps

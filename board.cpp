@@ -14,16 +14,46 @@ Board::Board() :
 
 Board::MOVE_TYPE Board::getMoveType(String move) {
 
-    int dF = abs(move.charAt(2) - move.charAt(0));
-    int dR = abs(move.charAt(3) - move.charAt(1));
+    int toFile = move.charAt(2) - 'a';
+    int toRank = 7 - (move.charAt(3) - '1');
+    int fromFile = move.charAt(0) - 'a';
+    int fromRank = 7 - (move.charAt(1) - '1');
 
-    if (dF == dR) { //along a diagonal
-        return(DIAGONAL);
-    } else if (dF == 0 || dR == 0) { //straight
-        return(RECTANGULAR);
-    } else { //L-shaped, avoid other pieces
-        return(AVOID);
-    } 
+    int dF = abs(toFile - fromFile);
+    int dR = abs(toRank - fromRank);
+
+    Serial.print("Squares rank file   ");
+    Serial.println(squares[fromRank][fromFile]);
+    
+    switch(squares[fromRank][fromFile]) {
+        case 'P':
+        case 'p':
+            if ((dF == dR) && (dF == 1) && (dR == 1)) { //diagonal, but not promoted
+                if (squares[toRank][toFile] != '.') { //normal capture
+                    return(DIAGONAL);
+                } else { //en passant
+                    return(EN_PASSANT);
+                }
+            } else { //normal pawn move
+                return(RECTANGULAR);
+            }
+            break;
+            
+        case 'K':
+        case 'k':
+            if ((dF == 2) || (dR == 2)) { //castle
+                return(CASTLE);
+            } //else -> just move normally
+        default:
+            if (dF == dR) { //along a diagonal
+                return(DIAGONAL);
+            } else if (dF == 0 || dR == 0) { //straight
+                return(RECTANGULAR);
+            } else { //L-shaped, avoid other pieces
+                return(AVOID);
+            } 
+            break;
+    }
 
 }
 
@@ -46,6 +76,8 @@ void Board::updateBoard(String move, MOVE_TYPE moveType) {
     squares[toRank][toFile] = squares[fromRank][fromFile];
     squares[fromRank][fromFile] = '.'; // Clear the source square
 
+    printState();
+
 }
 
 void Board::movePiece(String move, MOVE_TYPE moveType) {
@@ -57,8 +89,40 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     int fromFile = move.charAt(0) - 'a';
     int fromRank = 7 - (move.charAt(1) - '1');
 
+    if (moveType == CASTLE) {
+        movePiece(move, STRAIGHT); //king is moved to proper space
+        delay(500);
+        String rook_move = "";
+        if (toFile < 4) { // queenside castle
+            rook_move += (char)('a' + toFile - 2);
+            rook_move += (char)('1' + (7 - fromRank));
+            rook_move += (char)('a' + toFile + 1);
+            rook_move += (char)('1' + (7 - toRank));
+        } else { // kingside castle
+            rook_move += (char)('a' + toFile + 1);
+            rook_move += (char)('1' + (7 - fromRank));
+            rook_move += (char)('a' + toFile - 1);
+            rook_move += (char)('1' + (7 - toRank));
+        }
+        Serial.println("rook move");
+        Serial.println(rook_move);
 
-    if (moveType != CASTLE) {
+        movePiece(rook_move, AVOID);
+        delay(500);
+    } else if (moveType == EN_PASSANT) {
+         if ((toRank - fromRank) < 0) { // bottom player move
+            capturePiece(toFile, toRank + 1); //captures piece below
+            squares[toRank + 1][toFile] = '.'; // Clear the captured pawns square
+        } else { //top player move
+            capturePiece(toFile, toRank - 1); //captures piece above
+            squares[toRank - 1][toFile] = '.'; //Clear the captured pawns square
+        }
+        delay(500);
+        electromagnet.off();
+        moveToSquare(fromFile, fromRank, RECTANGULAR);
+        delay(500);
+
+    } else { //default
         // Check if a piece is occupying the destination square
         if (squares[toRank][toFile] != '.') {
             // Handle capture logic here
@@ -67,37 +131,6 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
         // Move the gantry to the destination square
         moveToSquare(fromFile, fromRank, RECTANGULAR);
         delay(500);
-
-    } else if (moveType == EN_PASSANT) {
-        movePiece(move, DIAGONAL);
-        delay(500);
-        if ((toRank - fromRank) < 0) { // bottom player move
-            capturePiece(toFile, toRank + 1); //captures piece below
-            squares[toRank + 1][toFile] = '.'; // Clear the captured pawns square
-        } else { //top player move
-            capturePiece(toFile, toRank - 1); //captures piece above
-            squares[toRank - 1][toFile] = '.'; //Clear the captured pawns square
-        }
-
-    } else { // moveType == CASTLE
-        // movePiece(move, STRAIGHT); //king is moved to proper space
-        // delay(500);
-        // String rook_move[5];
-        // if (toFile < 4) { //queenside castle
-        //     rook_move += ('a' + toFile - 2); //move from 2 spaces left of king ending
-        //     rook_move += ('1' + (7 - fromRank)); //move from same rank as before
-        //     rook_move += ('a' + toFile + 1); //move to 1 space right of king ending
-        //     rook_move += ('1' + (7 - toRank)); //move to same rank as before
-        // }
-        // else { //kindside castle
-        //     rook_move += ('a' + toFile + 1); //move from 1 space right of king ending
-        //     rook_move += ('1' + (7 - fromRank)); //move from same rank as before
-        //     rook_move += ('a' + toFile - 1); //move to 1 space left of king ending
-        //     rook_move += ('1' + (7 - toRank)); //move to same rank as before
-        // }
-        // movePiece(rook_move, AVOID);
-        // updateBoard(rook_move);
-        // delay(500);
     }
 
     //turn on the electromagnet to pick up the piece
@@ -117,6 +150,7 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
             delay(500);
             break;
         case DIAGONAL:
+        case EN_PASSANT:
             delay(500);
             moveToSquare(toFile, toRank, DIAGONAL);
             delay(500);
@@ -129,8 +163,6 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
             break;
         case CASTLE:
             break;
-        case EN_PASSANT:
-            break;
         default:
             break;
     }
@@ -138,7 +170,11 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
     electromagnet.off(); // Turn off the electromagnet after moving
 
     // Update the board
-    updateBoard(move, moveType);
+    if (moveType != CASTLE) {
+        updateBoard(move, moveType);
+    }
+
+    
 } 
 
 #ifndef wiggle
@@ -360,14 +396,9 @@ void Board::capturePiece(int file, int rank) {
         }
     }
 
-    Serial.print(side);
-    Serial.print(" ");
-    Serial.println(pos);
-
     //move the gantry to the piece being captured
     electromagnet.off();
     moveToSquare(file, rank, RECTANGULAR);
-    Serial.println("MOVED TO CAPTURED PIECE");
     delay(500);
     
     //move captured piece to square adjacent to cell
@@ -393,15 +424,7 @@ void Board::capturePiece(int file, int rank) {
             break;
     }
     electromagnet.on();
-    Serial.print(adj_file);
-    Serial.print(" ");
-    Serial.print(adj_rank);
-    Serial.print("  ");
-    Serial.print(file);
-    Serial.print(" ");
-    Serial.println(rank);
     moveToSquare(adj_file, adj_rank, CAPTURE, file, rank);
-    Serial.println("MOVED TO ADJACENT CELL");
     delay(500);
 
     int targetX = (7 - adj_file) * _squareSize + _x_borderSize + (_squareSize / 2); 
@@ -447,10 +470,6 @@ void Board::capturePiece(int file, int rank) {
         default:
             break;
     }
-    Serial.println("SHIFTED CAPTURED PIECE");
-    Serial.print(gantry.getX());
-    Serial.print("  ");
-    Serial.println(gantry.getY());
     delay(500);
 
     // // Re-center the piece on the cell
@@ -477,7 +496,6 @@ void Board::capturePiece(int file, int rank) {
     //     move_half_square(TOP_LEFT); 
     // }
     electromagnet.off();
-    Serial.println("RE-CENTERED CAPTURED PIECE");
     delay(500);
 
 }
