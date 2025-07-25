@@ -7,7 +7,7 @@ Board::Board() :
    electromagnet(ELECTROMAGNET_PIN), engine() {
     memcpy(squares, init_squares, sizeof(squares));
     memcpy(cells, init_cells, sizeof(cells));
-    gantry.home();
+    //gantry.home();
     engine.setSeed(micros());
     electromagnet.off();
 }
