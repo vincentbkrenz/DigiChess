@@ -1,5 +1,5 @@
 
-#define CHESS_DEBUG false
+#define CHESS_DEBUG true
 
 #if CHESS_DEBUG
 
@@ -17,9 +17,11 @@ Board board;
 
 void setup() {
   Serial.begin(9600);
+  while(!Serial);
   delay(100); 
+  Serial.println("Start");
   board.get_engine()->setSeed(micros());
-  board.reset_wiggle();
+  //board.reset_wiggle();
 }
 
 void loop() {
@@ -27,14 +29,14 @@ void loop() {
   //engine.setSeed(micros());
 
   // Choose search depth based on side to move: White (k==0x08) => 4, Black => 3
-  int depth = (board.get_engine()->k == 0x08) ? 4 : 3;
+  int depth = (board.get_engine()->k == 0x08) ? 3 : 4;
   bool gameOver = false;
   while (!gameOver) {
     gameOver = !(board.get_engine()->playComputerMove(depth));
     String move = board.get_engine()->printMoveAndBoard();
-    Board::MOVE_TYPE moveType = board.getMoveType(move);
-    board.movePiece(move, moveType);
-    delay(800);
+    //Board::MOVE_TYPE moveType = board.getMoveType(move);
+    //board.movePiece(move, moveType);
+    //delay(800);
   }
 
   // // Debug: print last 5 moves array
@@ -74,7 +76,7 @@ void setup() {
   delay(1000);
   //board.get_electromagnet()->on(); 
 
-  board.reset_wiggle();
+  //board.reset_wiggle();
 
   while(true){
     run_loop(board);
