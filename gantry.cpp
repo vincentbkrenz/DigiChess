@@ -87,6 +87,7 @@ void Gantry::home() {
         // stepMotorA(true); // Move +X 
         // stepMotorB(true);
         moveCoreXY(1,0);
+        
     }
 
     delay(500);
@@ -103,6 +104,8 @@ void Gantry::home() {
     //Move a bit
     setCurrentPosition(50, 0);
     moveTo(0, 50);
+    
+    delay(500);
 
     setCurrentPosition(_homingX, 0); //HOMED POSITION
 

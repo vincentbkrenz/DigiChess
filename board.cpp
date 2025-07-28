@@ -7,7 +7,7 @@ Board::Board() :
    electromagnet(ELECTROMAGNET_PIN), engine() {
     memcpy(squares, init_squares, sizeof(squares));
     memcpy(cells, init_cells, sizeof(cells));
-    //gantry.home();
+        gantry.home();
     engine.setSeed(micros());
     electromagnet.off();
 }
@@ -298,13 +298,80 @@ void Board::reset_wiggle() {
     }
 
     #endif //#if wiggle
-
-    
     
 }
 
-void Board::reset_from_capture() {
+void Board::reset_board() {
+
+    //capture all pieces blocking the reset
+    for (char i = 'a'; i <= 'h'; i++) {
+        for (char j = '1'; j <= '8'; j++){
+            int file = i - 'a';
+            int rank = 7 - (j - '1');
+            if ((squares[rank][file] != init_squares[rank][file])
+                    && squares[rank][file] != '.'
+                        && init_squares[rank][file] != '.') {
+                    capturePiece(file, rank);
+                    Serial.print("Capturing:  ");
+                    Serial.print(i);
+                    Serial.println(j);
+                }
+        }
+    }
+
+    //return the pieces that are still on the board
+    for (char i = 'a'; i <= 'h'; i++) {
+        for (char j = '1'; j <= '8'; j++) {
+            int file = i - 'a';
+            int rank = 7 - (j - '1');
+            if ((squares[rank][file] != init_squares[rank][file])
+                    && squares[rank][file] != '.'
+                        && init_squares[rank][file] == '.') {
+                    return_piece(squares[rank][file], file, rank);
+                }
+        }
+    }
+
     
+        
+
+
+    // //return the pieces that are still on the board
+    // for (int rank = 2; rank < 7; rank++) {
+    //     for (int file = 0; file < 8; file++) {
+    //         char symbol = init_squares[rank][file];
+    //         if ((symbol != '.')) {
+    //             return_piece(symbol, file, rank, false);
+    //         }
+    //     }
+    // }
+
+    // //return the pieces that are captured
+    // for (int side = 0; side < 4; side++) {
+    //     for (int pos = 0; pos < 8; pos++) {
+    //         char symbol = cells[side][pos];
+    //         if (symbol != '#') {
+    //             return_piece(symbol, pos, side, true);
+    //         }
+    //     }
+    // }
+}
+
+void Board::return_piece(char symbol, int from_file, int from_rank) {
+    for (int i = 0; i < 8; i++) { //file
+        for (int j = 0; j < 8; j++) { //rank
+            if (init_squares[j][i] == symbol && squares[j][i] == '.') {
+                electromagnet.off();
+                moveToSquare(from_file, from_rank, RECTANGULAR);
+                electromagnet.on();
+                moveToSquare(i, j, AVOID, from_file, from_rank);
+                delay(500);
+                squares[j][i] = symbol;
+                squares[from_rank][from_file] = '.';
+                return;
+            }
+        }
+    }
 }
 
 
@@ -495,8 +562,8 @@ void Board::capturePiece(int file, int rank) {
     // } else {
     //     move_half_square(TOP_LEFT); 
     // }
-    electromagnet.off();
     delay(500);
+    electromagnet.off();
 
 }
 

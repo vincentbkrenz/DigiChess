@@ -45,9 +45,10 @@ class Board {
         // make sure each piece is centered on the square
         void reset_wiggle();
 
-        void reset_from_capture();
-        
+        void reset_board();
 
+        void return_piece(char symbol, int from_file, int from_rank);
+        
         void move_half_square(HALF_SQUARE_DIRECTION direction);
 
         void moveToSquare(int file, int rank, MOVE_TYPE moveType = STRAIGHT, int fromFile = -1, int fromRank = -1);

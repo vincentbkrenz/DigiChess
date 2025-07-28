@@ -49,8 +49,9 @@ bool recordAndCheckRepetition() {
 
 void setup() {
   Serial.begin(9600);
-  while (!Serial) { delay(1); }
+  //while (!Serial) { delay(1); }
   Serial.println("Start");
+  board.reset_wiggle();
 
   // one initial seed
   uint32_t noise = micros();
@@ -64,7 +65,8 @@ void setup() {
 void loop() {
   bool gameOver = false;
 
-  while (!gameOver) {
+  int turns = 0;
+  while (!gameOver && turns < 15) {
     // ——— reseed before every half‑move ———
     uint32_t noise = micros();  // or analogRead(someFloatingPin)
     board.get_engine()->setSeed(noise);
@@ -74,7 +76,10 @@ void loop() {
 
     // play one engine move
     gameOver = !(board.get_engine()->playComputerMove(depth));
-    board.get_engine()->printMoveAndBoard();
+    String move = board.get_engine()->printMoveAndBoard();
+    board.movePiece(move, board.getMoveType(move));
+
+    turns++;
 
     // repetition check
     if (!gameOver && recordAndCheckRepetition()) {
@@ -82,6 +87,8 @@ void loop() {
       gameOver = true;
     }
   }
+
+  board.reset_board();
 
   // halt forever
   while (true) {
@@ -101,7 +108,7 @@ void setup() {
 
   
   Serial.begin(9600);
- // while(!Serial);
+  //while(!Serial);
   delay(500);
   Serial.println("start");
   Board board;
@@ -110,7 +117,7 @@ void setup() {
   delay(1000);
   //board.get_electromagnet()->on(); 
 
-  //board.reset_wiggle();
+  board.reset_wiggle();
 
   while(true){
     run_loop(board);
@@ -199,7 +206,7 @@ String moves[] = {
  }
 
   
-  while (true);
+  board.reset_board();
 
 }
 
