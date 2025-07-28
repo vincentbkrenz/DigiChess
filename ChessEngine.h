@@ -160,7 +160,15 @@ inline short ChessEngine::D(short q, short l, short e, unsigned char E, unsigned
               }
               b[G] = k + 6; b[F] = b[y] = 0; b[x] = u; b[H] = t;
             }
-            if (v > m) m = v, X = x, Y = y | S & F;
+                {
+              // small bias in [-3..+3] to break ties at every node
+              short rnd = (short)(myrand() & 0x7) - 3;
+              if (v + rnd > m) {
+                m = v;
+                X = x;
+                Y = y | S & F;
+              }
+            }
             if (h) { h = 0; goto A; }
             if (x + r - y | u & 32 | p > 2 & (p - 4 | j - 7 || b[G = x + 3 ^ r >> 1 & 7] - k - 6 || b[G ^ 1] | b[G ^ 2]))
                t += p < 5;

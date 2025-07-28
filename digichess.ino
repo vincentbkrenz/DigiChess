@@ -22,7 +22,7 @@ static uint8_t  histPtr = 0;
 
 // simple rolling hash of the 8×8 portion of the 0x88 board
 uint16_t hashBoard() {
-  auto *b = board.get_engine()->b; // thanks to CHESS_DEBUG hack
+  auto *b = board.get_engine()->b;
   uint16_t h = 0;
   for (uint8_t r = 0; r < 8; ++r) {
     for (uint8_t f = 0; f < 8; ++f) {
@@ -38,7 +38,6 @@ bool recordAndCheckRepetition() {
   uint8_t seen = 0;
   for (uint8_t i = 0; i < MAX_HIST; ++i) {
     if (posHist[i] == h && ++seen >= 2) {
-      // we’ve encountered this hash twice before
       return true;
     }
   }
@@ -53,11 +52,11 @@ void setup() {
   while (!Serial) { delay(1); }
   Serial.println("Start");
 
-  // seed once initially
+  // one initial seed
   uint32_t noise = micros();
   board.get_engine()->setSeed(noise);
 
-  // init repetition buffer to something impossible
+  // init repetition buffer
   memset(posHist, 0xFF, sizeof(posHist));
   histPtr = 0;
 }
@@ -66,26 +65,25 @@ void loop() {
   bool gameOver = false;
 
   while (!gameOver) {
-    // ——— reseed before every half-move ———
-    uint32_t noise = micros();  // or analogRead(noisePin)
+    // ——— reseed before every half‑move ———
+    uint32_t noise = micros();  // or analogRead(someFloatingPin)
     board.get_engine()->setSeed(noise);
 
-    // choose search depth: White (k==0x08)→4, Black→3
-    int depth = (board.get_engine()->k == 0x08) ? 4 : 3;
+    // choose depth: White→4, Black→3
+    int depth = (board.get_engine()->k == 0x08) ? 4 : 4;
 
     // play one engine move
     gameOver = !(board.get_engine()->playComputerMove(depth));
-    // print the move and board
     board.get_engine()->printMoveAndBoard();
 
-    // check repetition now that board has updated
+    // repetition check
     if (!gameOver && recordAndCheckRepetition()) {
       Serial.println("Draw by repetition");
       gameOver = true;
     }
   }
 
-  // stop here forever
+  // halt forever
   while (true) {
     delay(1000);
   }
