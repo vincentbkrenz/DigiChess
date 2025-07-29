@@ -6,6 +6,7 @@
 #include "gantry.h"
 #include "constants.h"
 #include "electromagnet.h"
+#include "LCD.h"
 #include <Arduino.h>
 
 
@@ -17,17 +18,22 @@ static uint8_t  histPtr = 0;
 uint16_t hashBoard();
 bool recordAndCheckRepetition();
 
-Board board;
+Board* board = nullptr;
+LCD* lcde = nullptr;
 
 void setup() {
 
+  board = new Board();
+  lcde = new LCD();
+  lcde->begin();
+
   #if CALIBRATION
-  board.reset_wiggle();
+  board->reset_wiggle();
   #endif
 
   // one initial seed
   uint32_t noise = micros();
-  board.get_engine()->setSeed(noise);
+  board->get_engine()->setSeed(noise);
 
   // init repetition buffer
   memset(posHist, 0xFF, sizeof(posHist));
@@ -36,20 +42,22 @@ void setup() {
 
 void loop() {
   bool gameOver = false;
+  lcde->setCursor(0, 1);
+  lcde->print("Digichess Test");
 
   int turns = 0;
   while (!gameOver && turns < 15) {
     // ——— reseed before every half‑move ———
     uint32_t noise = micros();  // or analogRead(someFloatingPin)
-    board.get_engine()->setSeed(noise);
+    board->get_engine()->setSeed(noise);
 
     // choose depth: White→4, Black→3
-    int depth = (board.get_engine()->k == 0x08) ? 4 : 4;
+    int depth = (board->get_engine()->k == 0x08) ? 4 : 4;
 
     // play one engine move
-    gameOver = !(board.get_engine()->playComputerMove(depth));
-    String move = board.get_engine()->printMoveAndBoard();
-    board.movePiece(move, board.getMoveType(move));
+    gameOver = !(board->get_engine()->playComputerMove(depth));
+    String move = board->get_engine()->printMoveAndBoard();
+    board->movePiece(move, board->getMoveType(move));
 
     turns++;
 
@@ -60,7 +68,7 @@ void loop() {
     }
   }
 
-  board.reset_board();
+  board->reset_board();
 
   // halt forever
   while (true) {
@@ -70,7 +78,7 @@ void loop() {
 
 // simple rolling hash of the 8×8 portion of the 0x88 board
 uint16_t hashBoard() {
-  auto *b = board.get_engine()->b;
+  auto *b = board->get_engine()->b;
   uint16_t h = 0;
   for (uint8_t r = 0; r < 8; ++r) {
     for (uint8_t f = 0; f < 8; ++f) {
