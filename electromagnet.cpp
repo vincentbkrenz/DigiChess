@@ -10,6 +10,7 @@ Electromagnet::Electromagnet(int pin)
 // Turns the electromagnet on
 void Electromagnet::on() {
     isOn = true;
+    Serial.println(pinNumber);
     digitalWrite(pinNumber, HIGH); // Set the pin high to turn on the electromagnet
 }
 
