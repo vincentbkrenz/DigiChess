@@ -3,6 +3,9 @@
 
 #include <Arduino.h>
 
+#define CALIBRATION true
+#define SERIAL_DEBUG false
+
 const int STEP_PIN_A = 10;
 const int DIR_PIN_A = 11;
 const int STEP_PIN_B = 12; 

@@ -5,11 +5,19 @@
 Board::Board() : 
   gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN), 
    electromagnet(ELECTROMAGNET_PIN), engine() {
+    Serial.begin(9600);
+    #if SERIAL_DEBUG
+    while (!Serial) { 
+        delay(1); 
+    }
+    delay(100);
+    #endif
+    Serial.println("Start");
     memcpy(squares, init_squares, sizeof(squares));
     memcpy(cells, init_cells, sizeof(cells));
-        gantry.home();
-    engine.setSeed(micros());
     electromagnet.off();
+    gantry.home();
+    engine.setSeed(micros());
 }
 
 Board::MOVE_TYPE Board::getMoveType(String move) {
@@ -312,6 +320,7 @@ void Board::reset_board() {
                     && squares[rank][file] != '.'
                         && init_squares[rank][file] != '.') {
                     capturePiece(file, rank);
+                    squares[rank][file] = '.';
                     Serial.print("Capturing:  ");
                     Serial.print(i);
                     Serial.println(j);
@@ -332,29 +341,10 @@ void Board::reset_board() {
         }
     }
 
-    
-        
+           
 
 
-    // //return the pieces that are still on the board
-    // for (int rank = 2; rank < 7; rank++) {
-    //     for (int file = 0; file < 8; file++) {
-    //         char symbol = init_squares[rank][file];
-    //         if ((symbol != '.')) {
-    //             return_piece(symbol, file, rank, false);
-    //         }
-    //     }
-    // }
-
-    // //return the pieces that are captured
-    // for (int side = 0; side < 4; side++) {
-    //     for (int pos = 0; pos < 8; pos++) {
-    //         char symbol = cells[side][pos];
-    //         if (symbol != '#') {
-    //             return_piece(symbol, pos, side, true);
-    //         }
-    //     }
-    // }
+ 
 }
 
 void Board::return_piece(char symbol, int from_file, int from_rank) {
