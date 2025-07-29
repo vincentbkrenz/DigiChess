@@ -48,10 +48,12 @@ class Board {
         void reset_board();
 
         void return_piece(char symbol, int from_file, int from_rank);
+
+        void return_captured_piece(int side, int cell);
         
         void move_half_square(HALF_SQUARE_DIRECTION direction);
 
-        void moveToSquare(int file, int rank, MOVE_TYPE moveType = STRAIGHT, int fromFile = -1, int fromRank = -1);
+        void moveToSquare(int file, int rank, MOVE_TYPE moveType = STRAIGHT, int fromFile = -2, int fromRank = -2);
 
         void capturePiece(int file, int rank);
 
