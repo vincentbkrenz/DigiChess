@@ -20,8 +20,6 @@ void LCD::clear() {
 
 void LCD::print(String str) {
     // Print a string to the LCD
-    lcd.clear();
-    delay(5);
     lcd.setCursor(0, 0);
     lcd.print(str);
     Serial.println(str);

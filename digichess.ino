@@ -44,6 +44,7 @@ void setup() {
 
 void loop() {
   bool gameOver = false;
+  lcde->clear();
   lcde->setCursor(0, 1);
   lcde->print("Digichess Test");
 
@@ -59,6 +60,16 @@ void loop() {
     // play one engine move
     gameOver = !(board->get_engine()->playComputerMove(depth));
     String move = board->get_engine()->printMoveAndBoard();
+    lcde->clear();
+    lcde->setCursor(0, 1);
+    lcde->print(move);
+    lcde->print("  Move: ", board->get_engine()->mn);
+    lcde->setCursor(1, 1);
+    if ((board->get_engine()->mn)%2 == 0) {
+      lcde->print(" Black");
+    } else {
+      lcde->print(" Red");
+    }
     board->movePiece(move, board->getMoveType(move));
 
     turns++;
