@@ -63,7 +63,8 @@ void loop() {
     lcde->clear();
     lcde->setCursor(0, 1);
     lcde->print(move);
-    lcde->print("  Move: ", board->get_engine()->mn);
+    lcde->print("  Move: ");
+    lcde->print((String)(board->get_engine()->mn));
     lcde->setCursor(1, 1);
     if ((board->get_engine()->mn)%2 == 0) {
       lcde->print(" Black");
