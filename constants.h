@@ -3,13 +3,15 @@
 
 #include <Arduino.h>
 
-#define CALIBRATION false
+#define CALIBRATION true
 #define SERIAL_DEBUG false
 
 const int STEP_PIN_A = 10;
 const int DIR_PIN_A = 11;
 const int STEP_PIN_B = 12; 
 const int DIR_PIN_B = 13;
+const int MS1_PIN = 7;
+const int MS2_PIN = 8;
 const int LIMIT_SWITCH_X_PIN = 2; // Pin for X limit switch
 const int LIMIT_SWITCH_Y_PIN = 3; // Pin for Y limit switch
 const int ELECTROMAGNET_PIN = 6; // Pin for the electromagnet

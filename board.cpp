@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 Board::Board() : 
-  gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN), 
+  gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN, MS1_PIN, MS2_PIN), 
    electromagnet(ELECTROMAGNET_PIN), engine() {
     Serial.begin(9600);
     #if SERIAL_DEBUG

@@ -48,13 +48,13 @@ void loop() {
   lcde->print("Digichess Test");
 
   int turns = 0;
-  while (!gameOver && turns < 15) {
-    // ——— reseed before every half‑move ———
+  while (!gameOver) {
+    // ——— reseed before ev_ry half‑move ———
     uint32_t noise = micros();  // or analogRead(someFloatingPin)
     board->get_engine()->setSeed(noise);
 
     // choose depth: White→4, Black→3
-    int depth = (board->get_engine()->k == 0x08) ? 4 : 4;
+    int depth = (board->get_engine()->k == 0x08) ? 5 : 5;
 
     // play one engine move
     gameOver = !(board->get_engine()->playComputerMove(depth));
@@ -69,6 +69,8 @@ void loop() {
       gameOver = true;
     }
   }
+
+  delay(10000);
 
   board->reset_board();
 
