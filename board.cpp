@@ -341,10 +341,15 @@ void Board::reset_board() {
         }
     }
 
-           
+    //return the pieces that are captured
 
-
- 
+    for (int side = 0; side < 4; side++) {
+        for (int cell = 0; cell < 8; cell++) {
+            if (cells[side][cell] != '#') {
+                return_captured_piece(side, cell);
+            }
+        }
+    }
 }
 
 void Board::return_piece(char symbol, int from_file, int from_rank) {
@@ -364,12 +369,87 @@ void Board::return_piece(char symbol, int from_file, int from_rank) {
     }
 }
 
+void Board::return_captured_piece(int side, int cell) {
+    char symbol = cells[side][cell];
+    int adj_file, adj_rank;
+    electromagnet.off();
+    //move to adjacent square
+    switch (side) {
+        case 0: // left side
+            adj_file = 0;
+            adj_rank = cell;
+            break;
+        case 1: // right side
+            adj_file = 7;
+            adj_rank = cell;
+            break;
+        case 2: // top side
+            adj_file = cell;
+            adj_rank = 7;
+            break;
+        case 3: // bottom side
+            adj_file = cell;
+            adj_rank = 0;
+            break;
+        default:
+            break;
+    }
+    moveToSquare(adj_file, adj_rank, RECTANGULAR);
+    //move onto square
+    switch (side) {
+        case 0: //left side
+            move_half_square(POSITIVE_X);
+            move_half_square(POSITIVE_X);
+            break;
+        case 1: //right side
+            move_half_square(NEGATIVE_X);
+            move_half_square(NEGATIVE_X);
+            break;
+        case 2: //bottom side
+            move_half_square(NEGATIVE_Y);
+            move_half_square(NEGATIVE_Y);
+            break;
+        case 3: //top side
+            move_half_square(POSITIVE_Y);
+            move_half_square(POSITIVE_Y);
+
+    }
+    //move piece to correct square
+    for (int i = 0; i < 8; i++) { //file
+        for (int j = 0; j < 8; j++) { //rank
+            if (init_squares[j][i] == symbol && squares[j][i] == '.') {
+                electromagnet.on();
+                delay(500);
+                switch(side) {
+                    case 0: //left side
+                        moveToSquare(i, j, AVOID, adj_file-1, adj_rank);
+                        break;
+                    case 1: //right side
+                        moveToSquare(i, j, AVOID, adj_file+1, adj_rank);
+                        break;
+                    case 2: //bottom side
+                        moveToSquare(i, j, AVOID, adj_file, adj_rank+1);
+                        break;
+                    case 3: //top side
+                        moveToSquare(i, j, AVOID, adj_file, adj_rank-1);
+                        break;
+                    default:
+                        break;
+                }
+                squares[j][i] = symbol;
+                cells[side][cell] = '#';
+                return;
+            }
+        }
+    }
+}
+
 
 void Board::moveToSquare(int file, int rank, MOVE_TYPE moveType, int fromFile, int fromRank) {
 
     if ((moveType == AVOID) || (moveType == CAPTURE)) {
 
-        if ((fromFile == -1) || (fromRank == -1)) {
+        if ((fromFile == -2) || (fromRank == -2)) {
             fromFile = file;
             fromRank = rank;
         }

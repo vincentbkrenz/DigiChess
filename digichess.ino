@@ -21,6 +21,8 @@ bool recordAndCheckRepetition();
 Board* board = nullptr;
 LCD* lcde = nullptr;
 
+
+
 void setup() {
 
   board = new Board();
