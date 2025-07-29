@@ -6,6 +6,7 @@
 #include "gantry.h"
 #include "constants.h"
 #include "electromagnet.h"
+#include "LCD.h"
 #include <Arduino.h>
 
 
@@ -18,10 +19,15 @@ uint16_t hashBoard();
 bool recordAndCheckRepetition();
 
 Board* board = nullptr;
+LCD* lcde = nullptr;
+
+
 
 void setup() {
-  
+
   board = new Board();
+  lcde = new LCD();
+  lcde->begin();
 
   #if CALIBRATION
   board->reset_wiggle();
@@ -38,6 +44,8 @@ void setup() {
 
 void loop() {
   bool gameOver = false;
+  lcde->setCursor(0, 1);
+  lcde->print("Digichess Test");
 
   int turns = 0;
   while (!gameOver && turns < 15) {
