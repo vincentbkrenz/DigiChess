@@ -62,14 +62,15 @@ void loop() {
     String move = board->get_engine()->printMoveAndBoard();
     lcde->clear();
     lcde->setCursor(0, 1);
-    lcde->print(move);
-    lcde->print("  Move: ", board->get_engine()->mn);
-    lcde->setCursor(1, 1);
-    if ((board->get_engine()->mn)%2 == 0) {
-      lcde->print(" Black");
-    } else {
-      lcde->print(" Red");
-    }
+
+    String msg = move;
+    msg += "\n  Move: ";
+    msg += String(board->get_engine()->mn-1);
+    msg += "\n ";
+    msg += ((board->get_engine()->mn) % 2 == 0) ? "Black" : "Red";
+
+    lcde->print(msg);
+
     board->movePiece(move, board->getMoveType(move));
 
     turns++;

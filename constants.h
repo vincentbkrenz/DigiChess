@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define CALIBRATION true
+#define CALIBRATION false
 #define SERIAL_DEBUG false
 
 const int STEP_PIN_A = 10;
