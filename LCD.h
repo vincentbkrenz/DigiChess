@@ -16,6 +16,9 @@ class LCD {
     // Print a string to the LCD
     void print(String str);
 
+    // Print a centered string to the LCD
+    void printCentered(String text, int row, int lcdWidth = 20);
+
     // Set cursor position
     void setCursor(int col, int row);
     

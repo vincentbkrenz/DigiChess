@@ -20,9 +20,17 @@ void LCD::clear() {
 
 void LCD::print(String str) {
     // Print a string to the LCD
-    lcd.setCursor(0, 0);
     lcd.print(str);
     Serial.println(str);
+}
+
+void LCD::printCentered(String text, int row, int lcdWidth) {
+  int textLength = text.length();
+  int startCol = (lcdWidth - textLength) / 2;
+  if (startCol < 0) startCol = 0; // Prevent negative positioning
+
+  lcd.setCursor(startCol, row);
+  lcd.print(text);
 }
 
 void LCD::setCursor(int col, int row) {
