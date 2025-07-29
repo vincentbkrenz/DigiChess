@@ -9,7 +9,6 @@
 #include "LCD.h"
 #include <Arduino.h>
 
-
 // ————— repetition tracking —————
 #define MAX_HIST 16
 static uint16_t posHist[MAX_HIST];
@@ -21,10 +20,7 @@ bool recordAndCheckRepetition();
 Board* board = nullptr;
 LCD* lcde = nullptr;
 
-
-
 void setup() {
-
   board = new Board();
   lcde = new LCD();
   lcde->begin();
@@ -45,12 +41,12 @@ void setup() {
 void loop() {
   bool gameOver = false;
   lcde->clear();
-  lcde->setCursor(0, 1);
-  lcde->print("Digichess Test");
+  lcde->printCentered("Digichess", 1);
+  lcde->printCentered("Starting Game...", 2);
 
   int turns = 0;
   while (!gameOver) {
-    // ——— reseed before ev_ry half‑move ———
+    // ——— reseed before every half‑move ———
     uint32_t noise = micros();  // or analogRead(someFloatingPin)
     board->get_engine()->setSeed(noise);
 
@@ -60,17 +56,17 @@ void loop() {
     // play one engine move
     gameOver = !(board->get_engine()->playComputerMove(depth));
     String move = board->get_engine()->printMoveAndBoard();
+
     lcde->clear();
-    lcde->setCursor(0, 1);
-    lcde->print(move);
-    lcde->print("  Move: ");
-    lcde->print((String)(board->get_engine()->mn));
-    lcde->setCursor(1, 1);
-    if ((board->get_engine()->mn)%2 == 0) {
-      lcde->print(" Black");
-    } else {
-      lcde->print(" Red");
-    }
+    // Display move on line 1
+    lcde->printCentered(move, 1);
+    // Display move number on line 2
+    String moveNum = "Move: " + String(board->get_engine()->mn-1);
+    lcde->printCentered(moveNum, 2);
+    // Display whose turn on line 3
+    String player = ((board->get_engine()->mn) % 2 == 0) ? "Blacks Turn" : "Reds Turn";
+    lcde->printCentered(player, 3);
+
     board->movePiece(move, board->getMoveType(move));
 
     turns++;
@@ -104,7 +100,7 @@ uint16_t hashBoard() {
   return h;
 }
 
-// record this position, return true if it’s now the 3rd time we’ve seen it
+// record this position, return true if it's now the 3rd time we've seen it
 bool recordAndCheckRepetition() {
   uint16_t h = hashBoard();
   uint8_t seen = 0;
