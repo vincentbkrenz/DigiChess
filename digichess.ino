@@ -51,7 +51,7 @@ void loop() {
     board->get_engine()->setSeed(noise);
 
     // choose depth: White→4, Black→3
-    int depth = (board->get_engine()->k == 0x08) ? 5 : 5;
+    int depth = (board->get_engine()->k == 0x08) ? 4 : 4;
 
     // play one engine move
     gameOver = !(board->get_engine()->playComputerMove(depth));
@@ -74,7 +74,11 @@ void loop() {
     // repetition check
     if (!gameOver && recordAndCheckRepetition()) {
       Serial.println("Draw by repetition");
-      gameOver = true;
+      gameOver = false;
+      break;
+    }
+    else {
+      
     }
   }
 

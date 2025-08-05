@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define CALIBRATION false
+#define CALIBRATION true
 #define SERIAL_DEBUG false
 
 const int STEP_PIN_A = 10;
@@ -15,6 +15,8 @@ const int MS2_PIN = 8;
 const int LIMIT_SWITCH_X_PIN = 2; // Pin for X limit switch
 const int LIMIT_SWITCH_Y_PIN = 3; // Pin for Y limit switch
 const int ELECTROMAGNET_PIN = 6; // Pin for the electromagnet
+const int LEFT_BUTTON_PIN = 20;
+const int RIGHT_BUTTON_PIN = 19;
 
 
 const int maxX = 2345; // Outer limits (in steps)
