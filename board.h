@@ -35,6 +35,8 @@ class Board {
 
         Board();
 
+        Board(int cur_x, int cur_y);
+
         //updates board, returns the position of taken piece if captured or "00" if not
         void updateBoard(String move);
         void updateBoard(String move, MOVE_TYPE moveType);

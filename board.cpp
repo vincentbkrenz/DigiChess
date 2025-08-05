@@ -20,6 +20,16 @@ Board::Board() :
     engine.setSeed(micros());
 }
 
+Board::Board(int cur_x, int cur_y) : 
+  gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN, MS1_PIN, MS2_PIN), 
+   electromagnet(ELECTROMAGNET_PIN), engine() {
+    memcpy(squares, init_squares, sizeof(squares));
+    memcpy(cells, init_cells, sizeof(cells));
+    electromagnet.off();
+    engine.setSeed(micros());
+    gantry.setPosition(cur_x, cur_y);
+}
+
 Board::MOVE_TYPE Board::getMoveType(String move) {
 
     int toFile = move.charAt(2) - 'a';
