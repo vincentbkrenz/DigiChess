@@ -3,16 +3,20 @@
 
 #include <Arduino.h>
 
-#define CALIBRATION false
+#define CALIBRATION true
 #define SERIAL_DEBUG false
 
 const int STEP_PIN_A = 10;
 const int DIR_PIN_A = 11;
 const int STEP_PIN_B = 12; 
 const int DIR_PIN_B = 13;
+const int MS1_PIN = 7;
+const int MS2_PIN = 8;
 const int LIMIT_SWITCH_X_PIN = 2; // Pin for X limit switch
 const int LIMIT_SWITCH_Y_PIN = 3; // Pin for Y limit switch
 const int ELECTROMAGNET_PIN = 6; // Pin for the electromagnet
+const int LEFT_BUTTON_PIN = 15;
+const int RIGHT_BUTTON_PIN = 14;
 
 
 const int maxX = 2345; // Outer limits (in steps)
@@ -49,5 +53,9 @@ const char final_cells[4][9] = { //strings are size 9 due to the nullptr at the 
 const int squareSize = 220; // Size of each square in steps
 const int y_borderSize = 150; // Size of the border around the board in steps
 const int x_borderSize = 275;
+
+const String games[][4] = {{"a2a4", "b2b4", "c2c4", "DONE"},{"b2b4", "DONE", "", ""},{"c2c4", "DONE", "", ""}};
+const String gameNames[3] = {"Immortal Game", "Game 2", "Game 3"};
+const int MAX_GAMES = 3;
 
 #endif // CONSTANTS_H

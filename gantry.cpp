@@ -1,15 +1,21 @@
 #include "gantry.h"
 
 // Constructor: Initializes motor and limit switch pins, sets initial position to (0,0) and default outer limits
-Gantry::Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSwitchXPin, int limitSwitchYPin)
-    : _stepPinA(stepPinA), _dirPinA(dirPinA), _stepPinB(stepPinB), _dirPinB(dirPinB),
+Gantry::Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSwitchXPin, int limitSwitchYPin, int MS1_pin, int MS2_pin)
+    : _stepPinA(stepPinA), _dirPinA(dirPinA), _stepPinB(stepPinB), _dirPinB(dirPinB), _MS1_pin(MS1_pin), _MS2_pin(MS2_pin),
       _limitSwitchXPin(limitSwitchXPin), _limitSwitchYPin(limitSwitchYPin), _currentX(0), _currentY(0) {
     pinMode(_stepPinA, OUTPUT);
     pinMode(_dirPinA, OUTPUT);
     pinMode(_stepPinB, OUTPUT);
     pinMode(_dirPinB, OUTPUT);
+    pinMode(_MS1_pin, OUTPUT);
+    pinMode(_MS2_pin, OUTPUT);
     pinMode(_limitSwitchXPin, INPUT_PULLUP);
     pinMode(_limitSwitchYPin, INPUT_PULLUP);
+
+    //put drivers in half step mode
+    digitalWrite(_MS1_pin, HIGH);
+    digitalWrite(_MS2_pin, LOW);
 }
 
 // Moves the gantry to the specified X/Y position using CoreXY kinematics and movement mode

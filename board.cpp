@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 Board::Board() : 
-  gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN), 
+  gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN, MS1_PIN, MS2_PIN), 
    electromagnet(ELECTROMAGNET_PIN), engine() {
     Serial.begin(9600);
     #if SERIAL_DEBUG
@@ -18,6 +18,16 @@ Board::Board() :
     electromagnet.off();
     gantry.home();
     engine.setSeed(micros());
+}
+
+Board::Board(int cur_x, int cur_y) : 
+  gantry(STEP_PIN_A, DIR_PIN_A, STEP_PIN_B, DIR_PIN_B, LIMIT_SWITCH_X_PIN, LIMIT_SWITCH_Y_PIN, MS1_PIN, MS2_PIN), 
+   electromagnet(ELECTROMAGNET_PIN), engine() {
+    memcpy(squares, init_squares, sizeof(squares));
+    memcpy(cells, init_cells, sizeof(cells));
+    electromagnet.off();
+    engine.setSeed(micros());
+    gantry.setCurrentPosition(cur_x, cur_y);
 }
 
 Board::MOVE_TYPE Board::getMoveType(String move) {

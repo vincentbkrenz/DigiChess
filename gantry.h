@@ -15,7 +15,7 @@ class Gantry {
             MOVE_DIAGONAL = 2 // diagonal (only if |deltaX| == |deltaY|)
         };
         
-        Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSwitchXPin, int limitSwitchYPin);
+        Gantry(int stepPinA, int dirPinA, int stepPinB, int dirPinB, int limitSwitchXPin, int limitSwitchYPin, int MS1_pin, int MS2_pin);
 
         // Updated moveTo with movement mode
         void moveTo(int xSteps, int ySteps, Movement mode = MOVE_STRAIGHT);
@@ -42,6 +42,7 @@ class Gantry {
     private:
         int _stepPinA, _dirPinA;
         int _stepPinB, _dirPinB;
+        int _MS1_pin, _MS2_pin;
         int _limitSwitchXPin, _limitSwitchYPin;
         int _currentX = 0;
         int _currentY = 0;
