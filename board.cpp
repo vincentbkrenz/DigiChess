@@ -27,7 +27,7 @@ Board::Board(int cur_x, int cur_y) :
     memcpy(cells, init_cells, sizeof(cells));
     electromagnet.off();
     engine.setSeed(micros());
-    gantry.setPosition(cur_x, cur_y);
+    gantry.setCurrentPosition(cur_x, cur_y);
 }
 
 Board::MOVE_TYPE Board::getMoveType(String move) {
