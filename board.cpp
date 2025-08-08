@@ -266,23 +266,23 @@ void Board::reset_wiggle() {
                 moveToSquare(i, j, STRAIGHT);
                 electromagnet.on();
                 move_half_square(NEGATIVE_Y);
-                //move_half_square(NEGATIVE_Y);
+                move_half_square(NEGATIVE_Y);
                 delay(200);
                 move_half_square(POSITIVE_Y);
-                //move_half_square(POSITIVE_Y);
-                //delay(500);
+                move_half_square(POSITIVE_Y);
+                delay(500);
                 electromagnet.off();
             }
         } else { // j == 6
             for (int i = 7; i >= 0; i--) {
                 moveToSquare(i, j, STRAIGHT);
-                 electromagnet.on();
+                electromagnet.on();
                 move_half_square(POSITIVE_Y);
-                //move_half_square(POSITIVE_Y);
-                //delay(200);
+                move_half_square(POSITIVE_Y);
+                delay(200);
                 move_half_square(NEGATIVE_Y);
-                //move_half_square(NEGATIVE_Y);
-                //delay(500);
+                move_half_square(NEGATIVE_Y);
+                delay(500);
                 electromagnet.off();
             }
         }
@@ -293,11 +293,11 @@ void Board::reset_wiggle() {
                 moveToSquare(i, j, STRAIGHT);
                 electromagnet.on();
                 move_half_square(POSITIVE_Y);
-                //move_half_square(POSITIVE_Y);
-                //delay(200);
+                move_half_square(POSITIVE_Y);
+                delay(200);
                 move_half_square(NEGATIVE_Y);
-                //move_half_square(NEGATIVE_Y);
-                //delay(500);
+                move_half_square(NEGATIVE_Y);
+                delay(500);
                 electromagnet.off();
             }
         } else { //j == 1
@@ -305,11 +305,11 @@ void Board::reset_wiggle() {
                 moveToSquare(i, j, STRAIGHT);
                 electromagnet.on();
                 move_half_square(NEGATIVE_Y);
-                //move_half_square(NEGATIVE_Y);
-                //delay(200);
+                move_half_square(NEGATIVE_Y);
+                delay(200);
                 move_half_square(POSITIVE_Y);
-                //move_half_square(POSITIVE_Y);
-                //delay(500);
+                move_half_square(POSITIVE_Y);
+                delay(500);
                 electromagnet.off();
             }
         }
