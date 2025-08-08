@@ -62,18 +62,23 @@ const String games[][46] = {
     "b1c3", "f8c5", "c3d5", "f6b2", "f4d6", "c5g1", "e4e5", "b2b1", "f1e2", "b8a6",
     "f5g7", "e8d8", "f3f6", "g8f6", "d6e7", "DONE"},
 
-    {"b2b4", "DONE",     "",    "",    "",      "",     "",     "",     "",     "",
-        "",    "",    "",      "",     "",     "",     "",     "",      "",     "",
-        "",    "",    "",      "",     "",     ""},
+    {"d2d4", "e7e6", "g1f3", "f8e7", "b1c3", "g8f6", "e2e4", "e8g8",
+    "e4e5", "f6e8", "h2h4", "d7d6", "f1d3", "d6e5", "d4e5", "b8c6",
+    "d3h7", "g8h7", "f3g5", "h7g6", "h4h5", "g6f5", "d1f3", "f5e5",
+    "c1f4", "e5d4", "f3d3", "d4c5", "d3b5", "c5d4", "e1c1", "DONE",
+    "", "", "", "", "", "", "",
+    "", "", "", "", "", "", ""},
     
-    
-    {"b2b4", "DONE",     "",    "",    "",      "",     "",     "",     "",     "",
-        "",    "",    "",      "",     "",     "",     "",     "",      "",     "",
-        "",    "",    "",      "",     "",     ""},
+    {"e2e4", "e7e5", "g1f3", "d7d6", "d2d4", "c8g4", "d4e5", "g4f3",
+    "d1f3", "d6e5", "f1c4", "g8f6", "f3b3", "d8e7", "b1c3", "c7c6",
+    "c1g5", "b7b5", "c3b5", "c6b5", "c4b5", "b8d7", "e1c1", "a8d8",
+    "d1d7", "d8d7", "h1d1", "e7e6", "b5d7", "f6d7", "b3b8", "d7b8",
+    "d1d8", "DONE", "", "", "",
+    "", "", "", "", "", "", ""}
 };
 
     
-const String gameNames[3] = {"Immortal Game", "Game 2", "Game 3"};
+const String gameNames[3] = {"Immortal Game", "Q-Castle Mate", "Opera Game"};
 const int MAX_GAMES = 3;
 
 #endif // CONSTANTS_H
