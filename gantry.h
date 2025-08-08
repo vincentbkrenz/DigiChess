@@ -10,7 +10,7 @@ class Gantry {
 
             // Enum for movement modes
         enum Movement {
-            MOVE_STRAIGHT = 0, // straight line (default, Bresenham-style)
+            MOVE_STRAIGHT = 0, // straight line 
             MOVE_RECTANGULAR = 1, // L-shaped (first X, then Y)
             MOVE_DIAGONAL = 2 // diagonal (only if |deltaX| == |deltaY|)
         };

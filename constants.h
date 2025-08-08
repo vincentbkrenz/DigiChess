@@ -19,11 +19,11 @@ const int LEFT_BUTTON_PIN = 15;
 const int RIGHT_BUTTON_PIN = 14;
 
 
-const int maxX = 2345; // Outer limits (in steps)
-const int maxY = 2345; // Outer limits (in steps)
+const int maxX = 2500; // Outer limits (in steps)
+const int maxY = 2500; // Outer limits (in steps)
 const int homingX = 2200;
-const int minX = 0;   //Inner limits (in steps)
-const int minY = 0;   //Inner limits (in steps)
+const int minX = -500;   //Inner limits (in steps)
+const int minY = -500;   //Inner limits (in steps)
 
 const char init_squares[8][8] = {
     {'r','n','b','q','k','b','n','r'},
@@ -50,11 +50,29 @@ const char final_cells[4][9] = { //strings are size 9 due to the nullptr at the 
     "RNBKQBNR"  //top side
 };
 
-const int squareSize = 220; // Size of each square in steps
-const int y_borderSize = 150; // Size of the border around the board in steps
-const int x_borderSize = 275;
+const int squareSize = 230; // Size of each square in steps
+const int y_borderSize = 125; // Size of the border around the board in steps
+const int x_borderSize = 250;
 
-const String games[][4] = {{"a2a4", "b2b4", "c2c4", "DONE"},{"b2b4", "DONE", "", ""},{"c2c4", "DONE", "", ""}};
+// If you're getting bored of computer vs computer games with the chess engine, here are some famous games
+const String games[][46] = {
+    {"e2e4", "e7e5", "f2f4", "e5f4", "f1c4", "d8h4", "e1f1", "b7b5", "c4b5", "g8f6",
+    "g1f3", "h4h6", "d2d3", "f6h5", "f3h4", "h6g5", "h4f5", "c7c6", "g2g4", "h5f6",
+    "h1g1", "c6b5", "h2h4", "g5g6", "h4h5", "g6g5", "d1f3", "f6g8", "c1f4", "g5f6",
+    "b1c3", "f8c5", "c3d5", "f6b2", "f4d6", "c5g1", "e4e5", "b2b1", "f1e2", "b8a6",
+    "f5g7", "e8d8", "f3f6", "g8f6", "d6e7", "DONE"},
+
+    {"b2b4", "DONE",     "",    "",    "",      "",     "",     "",     "",     "",
+        "",    "",    "",      "",     "",     "",     "",     "",      "",     "",
+        "",    "",    "",      "",     "",     ""},
+    
+    
+    {"b2b4", "DONE",     "",    "",    "",      "",     "",     "",     "",     "",
+        "",    "",    "",      "",     "",     "",     "",     "",      "",     "",
+        "",    "",    "",      "",     "",     ""},
+};
+
+    
 const String gameNames[3] = {"Immortal Game", "Game 2", "Game 3"};
 const int MAX_GAMES = 3;
 
