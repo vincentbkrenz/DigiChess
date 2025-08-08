@@ -142,6 +142,7 @@ void loop() {
       String move = board->get_engine()->printMoveAndBoard();
 
       lcde->clear();
+      lcde->printCentered("<----- Pause        ", 0);
       lcde->printCentered(move, 1);
       lcde->printCentered("Move: " + String(board->get_engine()->mn - 1), 2);
       lcde->printCentered((board->get_engine()->mn % 2) ? "Black's Turn" : "Red's Turn", 3);
@@ -195,6 +196,7 @@ void loop() {
     while(games[index][move_number] != "DONE" && !gameOver) {
       String move = games[index][move_number];
       lcde->clear();
+      lcde->printCentered("<----- Pause        ", 0);
       lcde->printCentered(move, 1);
       lcde->printCentered("Move: " + String(move_number + 1), 2);
       lcde->printCentered((move_number % 2) ? "Red's Turn" : "Black's Turn", 3);

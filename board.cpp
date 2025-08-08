@@ -147,7 +147,7 @@ void Board::movePiece(String move, MOVE_TYPE moveType) {
             capturePiece(toFile, toRank);
         }
         // Move the gantry to the destination square
-        moveToSquare(fromFile, fromRank, RECTANGULAR);
+        moveToSquare(fromFile, fromRank, STRAIGHT);
         delay(500);
     }
 
@@ -260,56 +260,56 @@ void Board::reset_wiggle() {
 
     #else
     electromagnet.off();
-    for (int j = 6; j < 8; j++) {
+    for (int j = 7; j >= 6; j--) {
         if (j == 7) {
             for (int i = 0; i < 8; i++) {
-                moveToSquare(i, j, RECTANGULAR);
+                moveToSquare(i, j, STRAIGHT);
                 electromagnet.on();
                 move_half_square(NEGATIVE_Y);
-                move_half_square(NEGATIVE_Y);
+                //move_half_square(NEGATIVE_Y);
                 delay(200);
                 move_half_square(POSITIVE_Y);
-                move_half_square(POSITIVE_Y);
-                delay(500);
+                //move_half_square(POSITIVE_Y);
+                //delay(500);
                 electromagnet.off();
             }
         } else { // j == 6
             for (int i = 7; i >= 0; i--) {
-                moveToSquare(i, j, RECTANGULAR);
+                moveToSquare(i, j, STRAIGHT);
                  electromagnet.on();
                 move_half_square(POSITIVE_Y);
-                move_half_square(POSITIVE_Y);
-                delay(200);
+                //move_half_square(POSITIVE_Y);
+                //delay(200);
                 move_half_square(NEGATIVE_Y);
-                move_half_square(NEGATIVE_Y);
-                delay(500);
+                //move_half_square(NEGATIVE_Y);
+                //delay(500);
                 electromagnet.off();
             }
         }
     }
-    for (int j = 0; j < 2; j++) { 
+    for (int j = 1; j >= 0; j--) { 
         if (j == 0) {
-            for (int i = 0; i < 8; i++) {
-                moveToSquare(i, j, RECTANGULAR);
+            for (int i = 7; i >= 0; i--) {
+                moveToSquare(i, j, STRAIGHT);
                 electromagnet.on();
                 move_half_square(POSITIVE_Y);
-                move_half_square(POSITIVE_Y);
-                delay(200);
+                //move_half_square(POSITIVE_Y);
+                //delay(200);
                 move_half_square(NEGATIVE_Y);
-                move_half_square(NEGATIVE_Y);
-                delay(500);
+                //move_half_square(NEGATIVE_Y);
+                //delay(500);
                 electromagnet.off();
             }
         } else { //j == 1
-            for (int i = 7; i >= 0; i--) {
-                moveToSquare(i, j, RECTANGULAR);
+            for (int i = 0; i < 8; i++) {
+                moveToSquare(i, j, STRAIGHT);
                 electromagnet.on();
                 move_half_square(NEGATIVE_Y);
-                move_half_square(NEGATIVE_Y);
-                delay(200);
+                //move_half_square(NEGATIVE_Y);
+                //delay(200);
                 move_half_square(POSITIVE_Y);
-                move_half_square(POSITIVE_Y);
-                delay(500);
+                //move_half_square(POSITIVE_Y);
+                //delay(500);
                 electromagnet.off();
             }
         }
@@ -404,7 +404,7 @@ void Board::return_captured_piece(int side, int cell) {
         default:
             break;
     }
-    moveToSquare(adj_file, adj_rank, RECTANGULAR);
+    moveToSquare(adj_file, adj_rank, STRAIGHT);
     //move onto square
     switch (side) {
         case 0: //left side
@@ -545,7 +545,7 @@ void Board::capturePiece(int file, int rank) {
 
     //move the gantry to the piece being captured
     electromagnet.off();
-    moveToSquare(file, rank, RECTANGULAR);
+    moveToSquare(file, rank, STRAIGHT);
     delay(500);
     
     //move captured piece to square adjacent to cell

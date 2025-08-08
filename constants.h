@@ -51,8 +51,8 @@ const char final_cells[4][9] = { //strings are size 9 due to the nullptr at the 
 };
 
 const int squareSize = 230; // Size of each square in steps
-const int y_borderSize = 125; // Size of the border around the board in steps
-const int x_borderSize = 250;
+const int y_borderSize = 115; // Size of the border around the board in steps
+const int x_borderSize = 220;
 
 // If you're getting bored of computer vs computer games with the chess engine, here are some famous games
 const String games[][46] = {
